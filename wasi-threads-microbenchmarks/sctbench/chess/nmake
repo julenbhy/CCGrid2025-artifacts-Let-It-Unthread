@@ -1,4 +1,0 @@
-clean : del $EATCHESSARGS
-build : nmake /NOLOGO $EATCHESSARGS
-install: nmake /NOLOGO INSTALLTEST=1 $EATCHESSARGS
-
