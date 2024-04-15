@@ -5,7 +5,7 @@ import time
 import numpy as np
 
 # Number of runs for each benchmark
-num_runs = 5
+num_runs = 30
 
 # Verbose output
 verbose = True
