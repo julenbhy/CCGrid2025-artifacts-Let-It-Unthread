@@ -5,7 +5,7 @@ import re
 import time
 
 # Number of runs for each benchmark
-num_runs = 100
+num_runs = 30
 
 # Time limit for each benchmark
 time_limit = 60
