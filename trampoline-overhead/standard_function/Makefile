@@ -9,12 +9,13 @@ LDFLAGS =
 
 
 # Compilation with musl-gcc
-MUSL_CC = /usr/bin/x86_64-linux-musl-gcc
+MUSL ?= /opt/x86_64-linux-musl-cross
+MUSL_CC = $(MUSL)/bin/x86_64-linux-musl-gcc
 MUSL_FLAGS =-Wl,-rpath,$(MUSL)/x86_64-linux-musl/lib
 
 
 # Compilation with wasi-sdk/clang
-WASI_SDK_DIR = /opt/wasi-sdk
+WASI_SDK_DIR ?= /opt/wasi-sdk
 WASI_CC = $(WASI_SDK_DIR)/bin/clang
 WASI_CFLAGS =
 WASI_LDFLAGS =
@@ -35,7 +36,7 @@ $(TARGET).wasm: $(TARGET).c
 
 
 
-WASMTIME ?= /home/julen/.wasmtime/bin/wasmtime
+WASMTIME ?= /opt/wasmtime-v16.0.0-x86_64-linux/wasmtime
 
 INPUT ?=
 run: $(TARGET)

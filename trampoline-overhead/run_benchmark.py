@@ -5,7 +5,7 @@ import re
 
 
 # Number of runs for each benchmark
-num_runs = 100
+num_runs = 30
 
 # Verbose output
 verbose = True
@@ -59,6 +59,12 @@ def run_bench(command):
 
 def main():
 
+    # Export the paths so the Makefiles can use them
+    os.environ["MUSL"] = "/opt/x86_64-linux-musl-cross"
+    os.environ["WASI_SDK"] = "/opt/wasi-sdk"
+    os.environ["WASMTIME"] = "/opt/wasmtime-v16.0.0-x86_64-linux/wasmtime"   
+
+
     # Compile all benchmarks
     compile()
     
@@ -82,17 +88,17 @@ def main():
 
         print("\nRunning standard_function(glibc)...")
         file.write(f"\nstandard_function(glibc)")
-        command = ["make", "-C", "standard_function", "run"]
+        command = ["make", "-s", "-C", "standard_function", "run"]
         file.write(run_bench(command))
 
         print("\nRunning standard_function(musl)...")
         file.write(f"\nstandard_function(musl)")
-        command = ["make", "-C", "standard_function", "runmusl"]
+        command = ["make", "-s", "-C", "standard_function", "runmusl"]
         file.write(run_bench(command))
 
         print("\nRunning standard_function(wasm)...")
         file.write(f"\nstandard_function(wasm)")
-        command = ["make", "-C", "standard_function", "runwasmtime"]
+        command = ["make", "-s", "-C", "standard_function", "runwasmtime"]
         file.write(run_bench(command))
 
     

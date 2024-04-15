@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
 
     // Print the average time per call in nano-seconds
     elapsed_time = (end_time.tv_sec - start_time.tv_sec) * 1e9 + (end_time.tv_nsec - start_time.tv_nsec);
-    printf("primero: %fns\n", elapsed_time / N_ITERS);
+    printf("%fns\n", elapsed_time / N_ITERS);
 
 
     return 0;

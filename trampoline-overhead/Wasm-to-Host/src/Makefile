@@ -8,7 +8,7 @@ CFLAGS =
 LDFLAGS =
 
 # Compilation with wasi-sdk/clang
-WASI_SDK_DIR = /opt/wasi-sdk
+WASI_SDK_DIR ?= /opt/wasi-sdk
 WASI_CC = $(WASI_SDK_DIR)/bin/clang
 WASI_CFLAGS =
 WASI_LDFLAGS =  -Wl,--allow-undefined
@@ -27,6 +27,7 @@ $(TARGET).wasm: $(TARGET).c
 
 
 # Add any additional wasmtime flags here
+WASMTIME ?= /opt/wasmtime-v16.0.0-x86_64-linux/wasmtime
 WASMTIME_FLAGS =
 
 INPUT ?=
@@ -34,7 +35,7 @@ run: $(TARGET)
 	./$(TARGET) $(INPUT)
 
 runwasmtime: $(TARGET).wasm
-	wasmtime $(WASMTIME_FLAGS) $(TARGET).wasm $(INPUT)
+	$(WASMTIME) $(WASMTIME_FLAGS) $(TARGET).wasm $(INPUT)
 
 
 
