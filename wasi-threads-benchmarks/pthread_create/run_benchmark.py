@@ -54,33 +54,6 @@ def run_bench(command):
     return result
 
 
-# Execution time can't be taken from /usr/bin/time due to low resolution
-def run_rss_bench(command):
-    result = []
-    # Prepend '/urs/bin/time -f %M' to the command
-    command = ["/usr/bin/time", "-f", "rss= %M"] + command
-
-    for j in range(1, num_runs + 1):
-        if(verbose): print("\n", " ".join(command))
-
-        try:
-            completed_process=subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=time_limit)
-        except subprocess.TimeoutExpired:
-            print("Timeout expired")
-            # Add a null to the result array
-            #result.append('x') # Breaks np.mean
-            continue
-
-        if(verbose): print(f"\n\tstdout: {completed_process.stdout} \tstderr: {completed_process.stderr}")
-
-        # Get the RSS from the output(just get numeric characters)
-        rss = ''.join(filter(str.isdigit, completed_process.stderr))
-
-        # Get the RSS from the output
-        result.append(int(rss))
-
-    return result
-
 
 def main():
 
@@ -94,15 +67,12 @@ def main():
         # Create directory for benchmark results
         os.makedirs(f"result", exist_ok=True)
         # Create CSV file for current benchmark and thread number
-        timecsv_file = f"result/{benchmark}.csv"
-        rsscsv_file = f"result/{benchmark}_rss.csv"
-        
+        timecsv_file = f"result/{benchmark}.csv"        
 
-        with open(timecsv_file, "w") as time_file, open(rsscsv_file, "w") as rss_file:
+        with open(timecsv_file, "w") as time_file:
 
             # Write headers: runtime, time1, time2, ..., timeN
             time_file.write("Threads,Runtime,Mean,StDev")
-            rss_file.write("Threads,Runtime,Mean,StDev")
 
             # Iterate over thread numbers
             for threads in num_threads:
@@ -111,36 +81,26 @@ def main():
                 command = [f"./main", str(threads)]
                 results = run_bench(command)
                 time_file.write(f"\n{threads},native(glibc),{np.mean(results)},{np.std(results)}")
-                rss_results = run_rss_bench(command)
-                rss_file.write(f"\n{threads},native(glibc),{np.mean(rss_results)},{np.std(rss_results)}")
     
                 # Run naive with musl
                 command = [f"./main.musl", str(threads)]
                 results = run_bench(command)
                 time_file.write(f"\n{threads},native(musl),{np.mean(results)},{np.std(results)}")
-                rss_results = run_rss_bench(command)
-                rss_file.write(f"\n{threads},native(musl),{np.mean(rss_results)},{np.std(rss_results)}")
 
                 # Run wasmtime.
                 command = [wasmtime, "-S", "threads", f"main.wasm", str(threads)]
                 results = run_bench(command)
                 time_file.write(f"\n{threads},wasmtime,{np.mean(results)},{np.std(results)}")
-                rss_results = run_rss_bench(command)
-                rss_file.write(f"\n{threads},wasmtime,{np.mean(rss_results)},{np.std(rss_results)}")
 
                 # Run iwasm.
                 command = [iwasm, f"--max-threads={threads + 1}", f"main.wasm", str(threads)]
                 results = run_bench(command)
                 time_file.write(f"\n{threads},iwasm,{np.mean(results)},{np.std(results)}")
-                rss_results = run_rss_bench(command)
-                rss_file.write(f"\n{threads},iwasm,{np.mean(rss_results)},{np.std(rss_results)}")
                 
                 # Run wasmer.
                 command = [wasmer, f"main.wasm", str(threads)]
                 results = run_bench(command)
                 time_file.write(f"\n{threads},wasmer,{np.mean(results)},{np.std(results)}")
-                rss_results = run_rss_bench(command)
-                rss_file.write(f"\n{threads},wasmer,{np.mean(rss_results)},{np.std(rss_results)}")
 
 
 

@@ -1,19 +1,9 @@
 clc
 
-% List of benchmarks (barrier, barrier_rss)
-benchmarks = {'create', 'create_rss'};
-
 % Iterate over the benchmarks
 plot('create');
 title('Thread creation time comparison');
 ylabel('Time (s)')
-
-plot('create_rss');
-title('Thread creation Max RSS comparison');
-ylabel('Max RSS (KB)')
-
-
-
 
 
 function plot(bench)
