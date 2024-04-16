@@ -36,7 +36,7 @@ sed -i "s#Ok(())#$generated_code#" "$lib_path"
 #modify wasi-threads lib.rs to measure instantiation time
 sed -i '/use wasmtime_wasi::maybe_exit_on_error;/a \use std::time::{Instant};' "$lib_path"
 sed -i '/let mut store = Store::new(&instance_pre.module().engine(), host);/a let instant = Instant::now();' "$lib_path"
-sed -i '/let instance = instance_pre.instantiate(&mut store).unwrap();/a println!("Elapsed time: {:?}", instant.elapsed());\n' "$lib_path"
+sed -i '/let instance = instance_pre.instantiate(&mut store).unwrap();/a println!("Elapsed time: {:?}", instant.elapsed().as_micros());\n' "$lib_path"
 
 ### compile wasmtime-modified ###
 echo "Compiling wasmtime-modified..."
