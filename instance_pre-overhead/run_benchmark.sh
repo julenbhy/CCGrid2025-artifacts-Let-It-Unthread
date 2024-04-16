@@ -1,36 +1,41 @@
 #!/bin/bash
 
-# Lista de valores para n_threads y n_funcs
-threads_list=(1 10 100 1000)
-funcs_list=(1 10 100 1000)
+funcs_list=(1 10)
+threads_list=(1 3)
 
-git clone  --recurse-submodules -b release-16.0.0 https://github.com/bytecodealliance/wasmtime.git
+nun_runs=3
 
-# Bucle externo para n_threads
-for n_threads in "${threads_list[@]}"
+WASMTIME="./wasmtime/target/release/wasmtime -S threads"
+TARGET="main.wasm"
+
+output_csv="result.csv"
+
+
+for n_funcs in "${funcs_list[@]}"
 do
-  # Bucle interno para n_funcs
-  for n_funcs in "${funcs_list[@]}"
+  echo "Functions: $n_funcs"
+  # Generate code for n_funcs functions
+  ./generate_code.sh $n_funcs
+
+  for n_threads in "${threads_list[@]}"
   do
-    # Nombre del archivo CSV de salida
-    output_csv="times/${n_funcs}_funcs_${n_threads}_threads.csv"
+    echo "Threads: $n_threads"
 
-    # Número de veces que se ejecutará grep
-    n=1000
-    WASMTIME_MODIFIED="./wasmtime-modified/target/release/wasmtime"
-    TARGET="main"
-    WASMTIME_FLAGS="--wasm-features=threads --wasi-modules=experimental-wasi-threads"
-
-    bash code_generator.sh $n_funcs $n_threads
-
-    # Bucle para ejecutar grep y procesar los resultados n veces
-    for ((i=1; i<=$n; i++))
+    for ((i=1; i<=$nun_runs; i++))
     do
-      # Ejecutar grep y almacenar la línea de resultado en una variable
-      result=$(make modified)
-  
-      # Extraer los valores numéricos usando awk y agregarlos al archivo CSV
-      echo "$result" | tail -n +3 | awk '{gsub(/[^0-9,]/,""); print}' >> $output_csv
+      echo "Run $i"
+      result=$($WASMTIME $TARGET $n_threads 2>&1)
+      echo "$result"
+      
+      # Extract numeric value from result 
+      result=$(echo $result | grep -oP '(?<=Elapsed time: )\d+.\d+')
+
+      # Calculate average (the result contains multiple values (each value in a separete line), one for each thread)
+      avg=$(echo "scale=2; $avg + $result" | bc)
+      
+
     done
+
+    avg=$(echo "scale=2; $avg / $nun_runs" | bc)
   done
 done

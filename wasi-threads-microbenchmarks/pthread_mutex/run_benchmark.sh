@@ -11,7 +11,6 @@ verbose=true
 
 # Array of benchmarks
 benchmarks=("no_contention" "contention")
-benchmarks=("contention")
 
 # Array of thread numbers to run the benchmarks with
 num_threads=(8 16 32 64)
