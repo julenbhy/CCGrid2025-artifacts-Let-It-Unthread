@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# Number of runs for each benchmark
-num_runs=30
 
 # Time limit for each benchmark
 time_limit=60
@@ -48,18 +46,17 @@ extract_values() {
     calls=$calls
 }
 
-
-
-# Compile all benchmarks
-echo "Compiling benchmarks..."
-#make -f Makefile TARGET=contention
-#make -f Makefile TARGET=no_contention
-
 # Create directory for benchmark results
 mkdir -p "result"
 
+# Create build directory
+mkdir -p "build"
+
 # Iterate over benchmarks
 for benchmark in "${benchmarks[@]}"; do
+
+    make TARGET=$benchmark
+
 	# Create CSV file for current benchmark and thread number
 	csv_file="result/${benchmark}_strace.csv"
 	echo "Threads, Runtime, %Time, Calls" > "$csv_file"

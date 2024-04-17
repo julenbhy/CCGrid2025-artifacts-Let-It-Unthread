@@ -5,7 +5,7 @@ import time
 import numpy as np
 
 # Number of runs for each benchmark
-num_runs = 10
+num_runs = 30
 
 # Verbose output
 verbose = False
@@ -15,26 +15,8 @@ time_limit = 60
 
 
 # Array of benchmarks
-benchmarks = [
-    "account_ok",
-    "arithmetic_prog_ok",
-    "circular_buffer_ok",
-    "fanger01_ok",
-    "fsbench_ok",
-    "indexer_ok",
-    "lazy01_ok",
-    "micro_10_ok",
-    "micro_2_ok",
-    "micro_3_ok",
-    "phase01_ok",
-    "queue_ok",
-    "stack_ok",
-    "stateful01_ok",
-    "stateful06_ok",
-    "stateful20_ok",
-    "sync01_ok",
-    "sync02_ok"
-]
+benchmarks=["no_contention", "contention"]
+
 
 # Paths to runtimes
 wasmtime = "/opt/wasmtime-v16.0.0-x86_64-linux/wasmtime"
@@ -74,20 +56,23 @@ def run_bench(command):
     return result
 
 
+
 def main():
 
-    # Compile all benchmarks
-    print("Compiling benchmarks...")
-    subprocess.run(["./compile.sh"])
-    
     # Create directory for benchmark results
     os.makedirs(f"result", exist_ok=True)
+    os.makedirs(f"build", exist_ok=True)
 
     # Iterate over benchmarks
     for benchmark in benchmarks:
 
         # Create CSV file for current benchmark and thread number
-        timecsv_file = f"result/{benchmark}.csv"        
+        timecsv_file = f"result/{benchmark}.csv"     
+
+        # Compile benchmarks
+        print("Compiling benchmarks...")
+        # make TARGET=${benchmark}
+        subprocess.run(["make", f"TARGET={benchmark}"])
 
         with open(timecsv_file, "w") as time_file:
 
@@ -95,7 +80,7 @@ def main():
             time_file.write("Runtime,Mean,StDev")
 
             # Run naive with glibc
-            command = [f"./build/{benchmark}.x"]
+            command = [f"./build/{benchmark}"]
             results = run_bench(command)
             time_file.write(f"\nnative(glibc),{np.mean(results)},{np.std(results)}")
 

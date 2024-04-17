@@ -5,7 +5,7 @@ LIBS = -pthread
 # Compilation with gcc
 CC ?= /usr/bin/gcc
 CFLAGS =
-LDFLAGS = -I..
+LDFLAGS =
 
 MUSL_CC = musl-gcc
 
@@ -13,9 +13,7 @@ MUSL_CC = musl-gcc
 WASI_SDK ?= /opt/wasi-sdk
 WASI_CC = $(WASI_SDK)/bin/clang
 WASI_CFLAGS = --target=wasm32-wasi-threads
-WASI_LDFLAGS = -I.. -Wl,--import-memory,--export-memory,--max-memory=4294901760
-
-
+WASI_LDFLAGS = -Wl,--import-memory,--export-memory,--max-memory=4294901760
 
 
 .PHONY: all clean
