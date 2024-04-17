@@ -2,31 +2,6 @@
 
 This repository is an adaptation of [mimalloc-bench](https://github.com/daanx/mimalloc-bench/tree/master) with some modifications for WebAssembly compatibility. Visit [mimalloc-bench](https://github.com/daanx/mimalloc-bench/tree/master) and [mimalloc](https://github.com/microsoft/mimalloc) for furher information.
 
-# Setup
-
-## instalation:
-```curl -sL https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-21/wasi-sdk-21.0-linux.tar.gz | sudo tar -xz -C /opt/```
-
-```curl -sL https://musl.cc/x86_64-linux-musl-cross.tgz | sudo tar -xz -C /opt/```
-
-```curl https://wasmtime.dev/install.sh -sSf | bash```
-
-``` curl -sL https://github.com/bytecodealliance/wasm-micro-runtime/releases/download/WAMR-1.3.1/iwasm-1.3.1-x86_64-ubuntu-22.04.tar.gz | sudo tar -xz -C /opt/```
-
-```curl https://get.wasmer.io -sSfL | sh```
-
-## versions:
-
-wasi-sdk 21
-
-wasmtime-cli 18.0.1
-
-iwasm(wamr) 1.3.1
-
-wasmer 4.2.3
-
-cmake 3.25.2
-
 
 # Execution:
 
@@ -36,12 +11,12 @@ cmake 3.25.2
 
 3: run ```compile.sh``` from the main directory.
 
-4: run ```../bench.sh allr allt``` from the build directory.
+4: run ```../run_benchmark.sh allr allt``` from the build directory.
   - allr: run all the runtimes (native C (glibc), native C (musl), wasmtime, iwasm, wasmer)
   - allt: run all tests
   - -j: number of threads
 
-5: run generate_plots.m for generating plots.
+5: run generate_plot.m for generating plots.
 
 # Benchmarks
 ## Single-Threaded
