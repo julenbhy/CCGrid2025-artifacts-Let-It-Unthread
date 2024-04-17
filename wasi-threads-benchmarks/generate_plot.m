@@ -1,5 +1,5 @@
 clc
-benchmarks = {"blackscholes", "fluidanimate", "merge-sort", "parallel-grep", "parallel-mat-mul", "swaptions"};
+benchmarks = {"blackscholes", "fluidanimate", "swaptions"};
 threads = 64;
 
 
