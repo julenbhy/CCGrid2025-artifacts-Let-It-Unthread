@@ -8,14 +8,13 @@ import time
 num_runs = 30
 
 # Time limit for each benchmark
-time_limit = 60
+time_limit = 600
 
 # Verbose output
 verbose = True
 
 # Array of benchmarks
-benchmarks = ["blackscholes", "fluidanimate", "merge-sort", "parallel-gzip", "parallel-mat-mul", "parallel-grep", "swaptions"]
-#benchmarks = ["blackscholes", "fluidanimate", "merge-sort", "parallel-grep", "parallel-mat-mul", "swaptions"]
+benchmarks = ["blackscholes", "fluidanimate", "swaptions"]
 
 # Array of thread numbers to run the benchmarks with
 num_threads = [32, 64]
@@ -97,40 +96,32 @@ def main():
         with open(csv_file, "w") as file:
             file.write("Threads,Runtime,Time,StdDev")
 
-            # merge_sort receives depth instead of threads, will create 2^DEPTH threads
-            if benchmark == "merge-sort":
-                input_num_threads = [3, 4, 5, 6]
-            else:
-                input_num_threads = num_threads
-
             # Iterate over thread numbers
             for i in range(len(num_threads)):      
 
                 # Run native c with glibc.
                 file.write(f"\n{num_threads[i]},native(glibc)")
-                command = ["make", "multitime", "-C", benchmark, f"THREADS={input_num_threads[i]}", f"PARAMS_MULTITIME= -qq -n {num_runs}"]
+                command = ["make", "multitime", "-C", benchmark, f"THREADS={num_threads[i]}", f"PARAMS_MULTITIME= -qq -n {num_runs}"]
                 file.write(run_bench(command))
-
 
                 # Run musl if the benchmark is supported (fluidanimate and swaptions are not supported musl-cc cannot be used with g++)
                 file.write(f"\n{num_threads[i]},native(musl)")
-                command = ["make", "multitime_musl", "-C", benchmark, f"THREADS={input_num_threads[i]}", f"PARAMS_MULTITIME= -qq -n {num_runs}"]
+                command = ["make", "multitime_musl", "-C", benchmark, f"THREADS={num_threads[i]}", f"PARAMS_MULTITIME= -qq -n {num_runs}"]
                 file.write(run_bench(command))
-
 
                 # Run wasmtime.
                 file.write(f"\n{num_threads[i]},wasmtime")
-                command = ["make", "multitime_wasmtime", "-C", benchmark, f"THREADS={input_num_threads[i]}", f"PARAMS_MULTITIME= -qq -n {num_runs}"]
+                command = ["make", "multitime_wasmtime", "-C", benchmark, f"THREADS={num_threads[i]}", f"PARAMS_MULTITIME= -qq -n {num_runs}"]
                 file.write(run_bench(command))
 
                 # Run iwasm.
                 file.write(f"\n{num_threads[i]},iwasm")
-                command = ["make", "multitime_iwasm", "-C", benchmark, f"THREADS={input_num_threads[i]}", f"PARAMS_MULTITIME= -qq -n {num_runs}"]
+                command = ["make", "multitime_iwasm", "-C", benchmark, f"THREADS={num_threads[i]}", f"PARAMS_MULTITIME= -qq -n {num_runs}"]
                 file.write(run_bench(command))
                 
                 # Run wasmer.
                 file.write(f"\n{num_threads[i]},wasmer")
-                command = ["make", "multitime_wasmer", "-C", benchmark, f"THREADS={input_num_threads[i]}", f"PARAMS_MULTITIME= -qq -n {num_runs}"]
+                command = ["make", "multitime_wasmer", "-C", benchmark, f"THREADS={num_threads[i]}", f"PARAMS_MULTITIME= -qq -n {num_runs}"]
                 file.write(run_bench(command))           
                 
 

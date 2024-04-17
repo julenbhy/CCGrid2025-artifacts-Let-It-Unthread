@@ -1,7 +1,6 @@
 
 # List of benchmarks
-SUBDIRS = blackscholes parallel-gzip fluidanimate merge_sort swaptions ParallelGrep parallel-mat-mul
-#SUBDIRS = blackscholes fluidanimate merge-sort swaptions parallel-grep parallel-mat-mul
+SUBDIRS = blackscholes fluidanimate swaptions
 
 #call the makefile in the create directory
 all: $(SUBDIRS)
