@@ -65,7 +65,9 @@ for benchmark in "${benchmarks[@]}"; do
         
 	    # Run native c with glibc.
 	    echo -n -e "$threads,native(glibc)" >> "$csv_file"
-	    command=("make multitime NUM_RUNS=$num_runs TARGET=$benchmark INPUT=$threads 2>&1")
+	    #command=("make multitime NUM_RUNS=$num_runs TARGET=$benchmark INPUT=$threads 2>&1")
+        # Execute with timeout
+        command=("timeout $time_limit make multitime NUM_RUNS=$num_runs TARGET=$benchmark INPUT=$threads 2>&1")
         # run the command and extract the results and write them to the csv file
         results=$(eval "${command[@]}")
         extract_values "$results"

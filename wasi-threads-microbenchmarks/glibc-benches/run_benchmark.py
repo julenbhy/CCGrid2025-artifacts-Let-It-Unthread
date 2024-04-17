@@ -5,13 +5,13 @@ import time
 import numpy as np
 
 # Number of runs for each benchmark
-num_runs = 30
+num_runs = 10   # Takes a long time to run 10 times
 
 # Verbose output
 verbose = True
 
 # Time limit for each benchmark
-time_limit = 900
+time_limit = 300
 
 
 
