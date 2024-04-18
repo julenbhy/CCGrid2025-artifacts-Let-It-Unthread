@@ -19,7 +19,7 @@ Adaptation of certain benchmarks from [parsec](https://github.com/bamos/parsec-b
 
 ## pthread_create
 
-Benchmark for pthread creation from [cforall] (https://cforall.uwaterloo.ca/trac/browser/benchmark?rev=2c3562ded40923b5043ab4ad639620e9eada1ff9&order=name) to measure thread creation time.
+Benchmark for pthread creation from [cforall](https://cforall.uwaterloo.ca/trac/browser/benchmark?rev=2c3562ded40923b5043ab4ad639620e9eada1ff9&order=name) to measure thread creation time.
 
 ## pthread_create_RSS
 
