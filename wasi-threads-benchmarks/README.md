@@ -25,4 +25,4 @@ Benchmark for pthread creation from [cforall](https://cforall.uwaterloo.ca/trac/
 
 ## pthread_create_RSS
 
-This benchmark creates multiple threads that remain active simultaneously using a barrier to measure the maximum resident set size in relation to the number of concurrently active threads.
+This benchmark creates multiple threads that remain active simultaneously using a barrier to measure the maximum resident set size (RSS) in relation to the number of concurrently active threads.
