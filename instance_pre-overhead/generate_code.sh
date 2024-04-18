@@ -1,6 +1,10 @@
 #!/bin/bash
 
-wasi_sdk_path="/opt/wasi-sdk"
+# check WASI_SDK from environment variable
+if [ -z "$WASI_SDK" ]; then
+  WASI_SDK="/opt/wasi-sdk"
+  echo "WASI_SDK_PATH environment variable is not set. Using default path: $WASI_SDK"
+fi
 
 lib_path="wasmtime/crates/wasi-threads/src/lib.rs"
 
@@ -67,7 +71,7 @@ done
 sed -i 's/FUNCTION_CALLS/'"$generated_code"'/g' "$output_c"
 
 ### compile main.c ###
-$wasi_sdk_path/bin/clang --target=wasm32-wasi-threads\
+$WASI_SDK/bin/clang --target=wasm32-wasi-threads\
   -Wl,--import-memory,--export-memory,--max-memory=4294901760\
   -Wl,--allow-undefined -pthread -o main.wasm "$output_c"
 

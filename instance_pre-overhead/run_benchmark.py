@@ -1,12 +1,18 @@
 import subprocess
 import argparse
+import os
 
 funcs_list = [1, 10, 100, 1000]
 threads_list = [1, 16]
 
 num_runs = 30
 
+# Set the environment variable for the WASI SDK
+os.environ["WASI_SDK"] = "/opt/wasi-sdk"
+
+# Set the path to the wasmtime binary
 WASMTIME = "./wasmtime/target/release/wasmtime"
+
 TARGET = "main.wasm"
 
 output_csv = "result.csv"
