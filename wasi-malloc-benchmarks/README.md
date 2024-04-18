@@ -9,9 +9,9 @@ This repository is an adaptation of [mimalloc-bench](https://github.com/daanx/mi
 
 2: Set the wasmtime, iwasm and wasmer paths on bench.sh.
 
-3: run ```compile.sh``` from the main directory.
+3: Run ```compile.sh``` from the main directory.
 
-4: run ```../run_benchmark.sh allr allt``` from the build directory.
+4: Run ```../run_benchmark.sh allr allt``` from the build directory.
   - allr: run all the runtimes (native C (glibc), native C (musl), wasmtime, iwasm, wasmer)
   - allt: run all tests
   - -j: number of threads
