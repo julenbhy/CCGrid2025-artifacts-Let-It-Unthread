@@ -8,7 +8,7 @@ import re
 num_runs = 30
 
 # Verbose output
-verbose = True
+verbose = False
 
 # Time limit for each benchmark
 time_limit = 60

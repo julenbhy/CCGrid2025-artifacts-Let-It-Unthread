@@ -11,7 +11,7 @@ num_runs = 30
 time_limit = 600
 
 # Verbose output
-verbose = True
+verbose = False
 
 # Array of benchmarks
 benchmarks = ["blackscholes", "fluidanimate", "swaptions"]

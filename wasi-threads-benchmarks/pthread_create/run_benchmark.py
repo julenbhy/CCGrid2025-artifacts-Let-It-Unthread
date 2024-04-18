@@ -8,7 +8,7 @@ import numpy as np
 num_runs = 30
 
 # Verbose output
-verbose = True
+verbose = False
 
 # Time limit for each benchmark
 time_limit = 60
@@ -33,7 +33,7 @@ os.environ["WASI_SDK"] = "/opt/wasi-sdk"
 def run_bench(command):
     result = []
     for j in range(1, num_runs + 1):
-        if(verbose): print("\n", " ".join(command))
+        print("\n", " ".join(command))
 
         try:
             start_time = time.time()
