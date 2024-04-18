@@ -9,6 +9,7 @@ LDFLAGS =
 
 MUSL ?= /opt/x86_64-linux-musl-cross
 MUSL_CC = $(MUSL)/bin/x86_64-linux-musl-gcc
+MUSL_FLAGS =-Wl,-rpath,$(MUSL)/x86_64-linux-musl/lib
 
 # Compilation with wasi-sdk/clang
 WASI_SDK ?= /opt/wasi-sdk
