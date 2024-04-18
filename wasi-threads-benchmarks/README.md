@@ -11,7 +11,7 @@ For each of the subdirectories:
 
 2: Run ```python3 run_benchmark.py```
 
-3: run ```generate_plot.m``` for generating plots.
+3: Run ```generate_plot.m``` for generating plots.
 
 
 # Benchmarks
