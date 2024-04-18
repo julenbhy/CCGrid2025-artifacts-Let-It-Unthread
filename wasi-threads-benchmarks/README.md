@@ -5,6 +5,8 @@ This benchmark aims to assess the performance of [wasi-threads](https://bytecode
 
 # Execution:
 
+For each of the subdirectories:
+
 1: Set WASI-SDK, MUSL, WASMTIME, IWASM and WASMER paths on ```run_benchmark.py``` (if not defaults)
 
 2: Run ```python3 run_benchmark.py```
