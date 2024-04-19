@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.0)
 
 # Configure CMake for compiling to wasm
 if(COMPILE_TO_WASM)
+  set(WASI_SDK_PREFIX "${WASI_SDK_PATH}")# Avoid broken path if not /opt/wasi-sdk
+  
   if (NOT THREAD_BENCHMARKS)
     message(STATUS "Compiling to wasm without threads")
     set(CMAKE_TOOLCHAIN_FILE "${WASI_SDK_PATH}/share/cmake/wasi-sdk.cmake")
