@@ -22,7 +22,7 @@ The GitHub repository is structured into five distinct sections:
 
 wasi-sdk 21
 
-    curl -sL https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-21/wasi-sdk-21.0-linux.tar.gz | sudo tar -xz -C /opt/
+    curl -sL https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-21/wasi-sdk-21.0-linux.tar.gz | sudo tar -xz -C /opt/ && sudo mv /opt/wasi-sdk-21.0 /opt/wasi-sdk
 
 musl-cross
 
