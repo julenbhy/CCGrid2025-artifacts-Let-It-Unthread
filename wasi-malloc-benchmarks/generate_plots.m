@@ -13,7 +13,7 @@ end
 % Iterate over thread nums
 for i = 1:numel(num_threads)
     %filename = strcat('result/', num2str(num_threads(i)), '.csv');
-    filename = 'result/64_rack.csv';
+    filename = 'result/mimalloc.csv';
     all_benchmarks = readtable(filename);
 
     figure('Position', [100, 100, 1200, 800]);

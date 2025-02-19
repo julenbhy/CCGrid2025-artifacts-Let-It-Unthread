@@ -6,7 +6,7 @@
 # Allocators and tests
 # --------------------------------------------------------------------
 
-readonly alloc_all="glibc musl wasmtime iwasm wasmer"
+readonly alloc_all="glibc musl wasmtime wasmtime_mimalloc iwasm iwasm_mimalloc wasmer wasmer_mimalloc"
 alloc_run=""           # allocators to run (expanded by command line options)
 
 readonly tests="cfrac espresso malloc-large bench-malloc-simple"
@@ -16,9 +16,9 @@ readonly tests_all="$tests $thread_tests"
 tests_run=""
 
 # Set the paths to the runtimes
-wasmtime="/opt/wasmtime-v16.0.0-x86_64-linux/wasmtime"
-iwasm="/opt/iwasm-1.3.1/iwasm"
-wasmer="/opt/wasmer-4.2.3/bin/wasmer"
+wasmtime="/home/julen/.wasmtime/bin/wasmtime"
+iwasm="/usr/local/bin/iwasm"
+wasmer="/home/julen/.wasmer/bin/wasmer"
 
 
 
@@ -218,43 +218,51 @@ function run_test_env_cmd { # <test name> <allocator name> <environment args> <c
       infile="$benchdir/barnes/input";;
   esac
 
-  # Execute the test
-  #timeout $max_time $timecmd -a -o "$benchres.line" -f "$1${benchfill:${#1}} $2${allocfill:${#2}} %E %M %U %S %F %R" $3 < "$infile" > "$outfile"
-  # Add timeout in case wasmer hangs (with mleak)
+  # Execute the benchmark
   $timecmd -a -q -o "$benchres.line" -f "$1${benchfill:${#1}} $2${allocfill:${#2}} %e %M %U %S %F %R" timeout $max_time $3 < "$infile" > "$outfile"
+  exit_status=$?
 
-  # If the test times out, print a message and append the timeout to the results
-  if [ $? -eq 124 ]; then
+  if [ $exit_status -eq 124 ]; then
+    # Timeout
     warning "$1 $2 times out after $max_time seconds"
-    
-    # replace the time with "timeout" in the results
     cat "$benchres.line" | sed -E -e "s/($1  *$2  *)[^ ]*/\1timeout/" > "$benchres.line.tmp"
     mv "$benchres.line.tmp" "$benchres.line"
+  elif [ $exit_status -ne 0 ]; then
+    # Error
+    warning "$1 $2 failed with error code $exit_status"
+    echo "$1 $2 error" > "$benchres.line"
   fi
 
-
-
-
-  # fixup larson with relative time
+  # fixup with relative time
   case "$1" in
     larson*)
-      rtime=`cat "$1-$2-out.txt" | sed -n 's/.* time: \([0-9\.]*\).*/\1/p'`
-      echo "$1,$2, relative time: ${rtime}s"
-      sed -E -i.bak "s/($1  *$2  *)[^ ]*/\10:$rtime/" "$benchres.line";;
+      rtime=$(sed -n 's/.* time: \([0-9\.]*\).*/\1/p' "$1-$2-out.txt")
+      if [ -n "$rtime" ]; then
+        echo "$1,$2, relative time: ${rtime}s"
+        sed -E -i.bak "s/($1  *$2  *)[^ ]*/\10:$rtime/" "$benchres.line"
+      fi
+      ;;
     xmalloc*)
-      rtime=`cat "$1-$2-out.txt" | sed -n 's/rtime: \([0-9\.]*\).*/\1/p'`
-      echo "$1,$2, relative time: ${rtime}s"
-      sed -E -i.bak "s/($1  *$2  *)[^ ]*/\10:$rtime/" "$benchres.line";;
+      rtime=$(sed -n 's/rtime: \([0-9\.]*\).*/\1/p' "$1-$2-out.txt")
+      if [ -n "$rtime" ]; then
+        echo "$1,$2, relative time: ${rtime}s"
+        sed -E -i.bak "s/($1  *$2  *)[^ ]*/\10:$rtime/" "$benchres.line"
+      fi
+      ;;
     glibc-thread)
-      ops=`cat "$1-$2-out.txt" | sed -n 's/\([0-9\.]*\).*/\1/p'`
-      rtime=`echo "scale=3; (1000000000 / $ops)" | bc`
-      echo "$1,$2: iterations: ${ops}, relative time: ${rtime}s"
-      sed -E -i.bak "s/($1  *$2  *)[^ ]*/\10:$rtime/" "$benchres.line";;
+      ops=$(sed -n 's/\([0-9\.]*\).*/\1/p' "$1-$2-out.txt")
+      if [ -n "$ops" ]; then
+        rtime=$(echo "scale=3; (1000000000 / $ops)" | bc)
+        echo "$1,$2: iterations: ${ops}, relative time: ${rtime}s"
+        sed -E -i.bak "s/($1  *$2  *)[^ ]*/\10:$rtime/" "$benchres.line"
+      fi
+      ;;
   esac
 
-  # append to the results
+  # Append results
   test -f "$benchres.line" && cat "$benchres.line" | tee -a $benchres
 }
+
 
 function run_test_cmd {  # <test name> <command>
   echo ""
@@ -276,8 +284,11 @@ function run_test_cmd {  # <test name> <command>
           glibc) run_test_env_cmd $1 "glibc" "./$1 $2" $i;;
           musl) run_test_env_cmd $1 "musl" "./$1.musl $2" $i;;
           wasmtime) run_test_env_cmd $1 "wasmtime" "$wasmtime $wasmtime_thread_args --dir .. ./$1.wasm $2" $i;;
+          wasmtime_mimalloc) run_test_env_cmd $1 "wasmtime_mimalloc" "$wasmtime $wasmtime_thread_args --dir .. ./$1_mimalloc.wasm $2" $i;;
           iwasm) run_test_env_cmd $1 "iwasm" "$iwasm $iwasm_thread_args --dir=.. ./$1.wasm $2" $i;;
-          wasmer) run_test_env_cmd $1 "wasmer" "$wasmer --dir .. ./$1.wasm -- $2" $i;;
+          iwasm_mimalloc) run_test_env_cmd $1 "iwasm_mimalloc" "$iwasm $iwasm_thread_args --dir=.. ./$1_mimalloc.wasm $2" $i;;
+          wasmer) run_test_env_cmd $1 "wasmer" "$wasmer ./$1.wasm -- $2" $i;;
+          wasmer_mimalloc) run_test_env_cmd $1 "wasmer_mimalloc" "$wasmer ./$1_mimalloc.wasm -- $2" $i;;
         esac
       done
     fi

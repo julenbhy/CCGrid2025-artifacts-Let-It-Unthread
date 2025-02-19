@@ -1,10 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 
-
 # Configure CMake for compiling to wasm
 if(COMPILE_TO_WASM)
-  set(WASI_SDK_PREFIX "${WASI_SDK_PATH}")# Avoid broken path if not /opt/wasi-sdk
-  
   if (NOT THREAD_BENCHMARKS)
     message(STATUS "Compiling to wasm without threads")
     set(CMAKE_TOOLCHAIN_FILE "${WASI_SDK_PATH}/share/cmake/wasi-sdk.cmake")
@@ -13,6 +10,8 @@ if(COMPILE_TO_WASM)
     set(CMAKE_TOOLCHAIN_FILE "${WASI_SDK_PATH}/share/cmake/wasi-sdk-pthread.cmake")
   endif()
 endif()
+
+
 
 project(mimalloc-bench CXX C)
 set(CMAKE_CXX_STANDARD 17)
@@ -52,6 +51,7 @@ set(barnes_sources
     code.c code_io.c load.c grav.c getparam.c util.c)
 PREPEND(barnes_sources barnes/ ${barnes_sources})
 
+
 # turn off warnings..
 message(STATUS "${CMAKE_C_COMPILER_ID}")
 if(CMAKE_C_COMPILER_ID MATCHES "AppleClang|Clang|GNU")
@@ -61,9 +61,24 @@ if(CMAKE_C_COMPILER_ID MATCHES "AppleClang|Clang|GNU")
 endif()
 
 
-# Set common flags for wasm copmilation
+# Set common flags for wasm compilation
+if (COMPILE_TO_WASM)
+  set(CMAKE_EXECUTABLE_SUFFIX ".wasm")
+  set(WASI_FLAGS " -D_WASI_EMULATED_PROCESS_CLOCKS -lwasi-emulated-process-clocks -D_WASI_EMULATED_SIGNAL -lwasi-emulated-signal -DWASM=1")
+  string(APPEND CMAKE_C_FLAGS ${WASI_FLAGS})
+  string(APPEND CMAKE_CXX_FLAGS ${WASI_FLAGS})
+endif()
+
+# Set common flags for mimalloc compilation
+if(USE_MIMALLOC)
+  set(MIMALLOC_FLAGS " -L../mimalloc/build_wasm -lmimalloc")
+  string(APPEND CMAKE_C_FLAGS ${MIMALLOC_FLAGS})
+  string(APPEND CMAKE_CXX_FLAGS ${MIMALLOC_FLAGS})
+  set(CMAKE_EXECUTABLE_SUFFIX "_mimalloc.wasm")
+endif()
+
+# Set common flags for musl copmilation
 if(COMPILE_WITH_MUSL)
-  # Set compiler
   set(CMAKE_C_COMPILER "${MUSL_PATH}/bin/x86_64-linux-musl-gcc")
   set(CMAKE_CXX_COMPILER "${MUSL_PATH}/bin/x86_64-linux-musl-g++")
   set(MUSL_FLAGS " -Wl,-rpath,${MUSL_PATH}/x86_64-linux-musl/lib")
@@ -73,17 +88,8 @@ if(COMPILE_WITH_MUSL)
 endif()
 
 
-
 # NON THREADED BENCHMARKS
 if (NOT THREAD_BENCHMARKS)
-
-  # Set common flags for wasm compilation
-  if(COMPILE_TO_WASM)
-    set(WASI_FLAGS "-D_WASI_EMULATED_PROCESS_CLOCKS -lwasi-emulated-process-clocks -D_WASI_EMULATED_SIGNAL -lwasi-emulated-signal -DWASM=1")
-    string(APPEND CMAKE_C_FLAGS ${WASI_FLAGS})
-    string(APPEND CMAKE_CXX_FLAGS ${WASI_FLAGS})
-    set(CMAKE_EXECUTABLE_SUFFIX ".wasm")
-  endif()
 
   add_executable(cfrac ${cfrac_sources})
   target_compile_options(cfrac PRIVATE $<$<C_COMPILER_ID:GNU>:-std=gnu89>)
@@ -107,10 +113,9 @@ if (THREAD_BENCHMARKS)
 
   # Set flags for wasi threads
   if(COMPILE_TO_WASM)
-    set(WASI_FLAGS " -Wl,--import-memory,--export-memory,--max-memory=4294967296 -D_WASI_EMULATED_PROCESS_CLOCKS -lwasi-emulated-process-clocks -D_WASI_EMULATED_SIGNAL -lwasi-emulated-signal -DWASM=1")
+    set(WASI_FLAGS " -Wl,--import-memory,--export-memory,--max-memory=4294967296")
     string(APPEND CMAKE_C_FLAGS ${WASI_FLAGS})
     string(APPEND CMAKE_CXX_FLAGS ${WASI_FLAGS})
-    set(CMAKE_EXECUTABLE_SUFFIX ".wasm")
   endif()
 
   add_executable(larson larson/larson.cpp)
