@@ -1,4 +1,4 @@
-# SC24_AD_AE
+# CCGrid2025
 Artifacts related to [Let It Unthread: The Good, The Bad and The Ugly
 within WebAssembly Portable Multithreading](https://)
 
