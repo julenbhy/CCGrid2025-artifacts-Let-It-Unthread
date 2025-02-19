@@ -7,7 +7,7 @@ This repository is an adaptation of [mimalloc-bench](https://github.com/daanx/mi
 
 1: Set the musl-cross compiler and WASI-SDK paths on compile.sh.
 
-2: Set the wasmtime, iwasm and wasmer paths on bench.sh.
+2: Set the wasmtime, iwasm and wasmer paths on run_benchmark.sh.
 
 3: Run ```compile.sh``` from the main directory.
 
