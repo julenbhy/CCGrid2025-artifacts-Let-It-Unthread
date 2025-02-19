@@ -1,5 +1,6 @@
 # SC24_AD_AE
-Artifacts related to [Let It Unthread: Towards Demystifying WebAssembly Portable Multithreading](https://)
+Artifacts related to [Let It Unthread: The Good, The Bad and The Ugly
+within WebAssembly Portable Multithreading](https://)
 
 
 # Artifact Overview
