@@ -7,7 +7,7 @@ within WebAssembly Portable Multithreading](https://)
 
 The GitHub repository is structured into five distinct sections: 
 
-  - ```wasi-malloc-benchmarks:``` This section comprises benchmarks aimed to measure the performance of malloc through applications that heavily rely on this function. It evaluates both single-threaded and multi-threaded applications to asses the impact of employing an allocator without arenas, offering insights into memory allocation efficiency across different usage scenarios.
+  - ```wasi-malloc-benchmarks:``` This section comprises benchmarks aimed to measure the performance of malloc through applications that heavily rely on this function. It evaluates both single-threaded and multi-threaded applications to asses the impact of employing the default allocator without thread arenas, offering insights into memory allocation efficiency across different usage scenarios. Additionally, we have tested linking a different allocator with thread arenas to evaluate its performance improvement compared to the default allocator in wasi-libc.
     
   - ```wasi-threads-microbenchmarks:``` Within this section, benchmarks are aimed to evaluate thread synchronization. It includes small-scale applications that heavily utilize synchronization mechanisms, facilitating a detailed examination of thread coordination efficiency.
     
