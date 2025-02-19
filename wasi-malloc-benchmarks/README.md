@@ -2,6 +2,7 @@
 
 This repository is an adaptation of [mimalloc-bench](https://github.com/daanx/mimalloc-bench/tree/master) with some modifications for WebAssembly compatibility. Visit [mimalloc-bench](https://github.com/daanx/mimalloc-bench/tree/master) and [mimalloc](https://github.com/microsoft/mimalloc) for furher information.
 
+To demonstrate that the lack of *thread arenas* in the default **wasi-libc** allocator causes a significant performance issue on multitheaded applications, we have also compiled **mimalloc** allocator to WebAssembly and linked it with each benchmark as a potential improvement.
 
 # Execution:
 
