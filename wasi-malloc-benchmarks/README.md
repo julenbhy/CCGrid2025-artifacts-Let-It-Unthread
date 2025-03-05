@@ -12,7 +12,7 @@ To demonstrate that the lack of *thread arenas* in the default **wasi-libc** all
 
 3: Run ```compile.sh``` from the main directory.
 
-4: Run ```../run_benchmark.sh allr allt``` from the build directory.
+4: Run ```../run_benchmark.sh allr allt``` from the ```build/``` directory.
   - allr: run all the runtimes (native C (glibc), native C (musl), wasmtime, iwasm, wasmer)
   - allt: run all tests
   - -j: number of threads
