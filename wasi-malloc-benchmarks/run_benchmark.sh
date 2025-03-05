@@ -48,7 +48,7 @@ fi
 # --------------------------------------------------------------------
 
 readonly curdir=`pwd`
-if ! test -f ../bench.sh; then
+if ! test -f ../run_benchmark.sh; then
   echo "error: you must run this script from the 'build' directory!"
   exit 1
 fi
@@ -136,7 +136,7 @@ while : ; do
         -v|--verbose)
             verbose="yes";;
         -h|--help|-\?|help|\?)
-            echo "./bench [options]"
+            echo "./run_benchmark [options]"
             echo ""
             echo "options:"
             echo "  -h, --help                   show this help"  
