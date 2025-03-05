@@ -28,6 +28,7 @@ wasi-sdk 21
 musl-cross
 
     curl -sL https://musl.cc/x86_64-linux-musl-cross.tgz | sudo tar -xz -C /opt/
+    sudo ln -s /opt/x86_64-linux-musl-cross/x86_64-linux-musl/lib/libc.so /lib/ld-musl-x86_64.so.1
 
 wasmtime-cli 16.0.0
 
