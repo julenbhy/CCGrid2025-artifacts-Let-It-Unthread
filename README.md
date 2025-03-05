@@ -25,6 +25,10 @@ wasi-sdk 21
 
     curl -sL https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-21/wasi-sdk-21.0-linux.tar.gz | sudo tar -xz -C /opt/ && sudo mv /opt/wasi-sdk-21.0 /opt/wasi-sdk
 
+wasi-sdk 20
+
+    curl -sL https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-20/wasi-sdk-20.0-linux.tar.gz | sudo tar -xz -C /opt/
+
 musl-cross
 
     curl -sL https://musl.cc/x86_64-linux-musl-cross.tgz | sudo tar -xz -C /opt/
@@ -47,9 +51,11 @@ rust
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
     sudo apt install build-essential
 
-cmake
+others
 
     sudo apt install cmake
+    sudo apt install m4
+    sudo apt install multitime
   
 
 # Artifact Execution:
