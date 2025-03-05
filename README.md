@@ -42,6 +42,15 @@ wasmer 4.2.3
 
     sudo mkdir /opt/wasmer-4.2.3 && curl -sL https://github.com/wasmerio/wasmer/releases/download/v4.2.3/wasmer-linux-amd64.tar.gz | sudo tar -xz -C /opt/wasmer-4.2.3
 
+rust
+
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    sudo apt install build-essential
+
+cmake
+
+    sudo apt install cmake
+  
 
 # Artifact Execution:
 
