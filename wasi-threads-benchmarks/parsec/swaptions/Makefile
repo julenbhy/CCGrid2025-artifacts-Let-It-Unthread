@@ -41,9 +41,11 @@ $(TARGET).wasm:
 THREADS = 8
 INPUT ?= -ns 64 -sm 40000 -nt $(THREADS)	# Simlarge values in parsec
 
-WASMTIME ?= /home/julen/.wasmtime/bin/wasmtime
-IWASM ?= /usr/local/bin/iwasm
-WASMER ?= /home/julen/.wasmer/bin/wasmer
+WASMTIME ?= /opt/wasmtime-v16.0.0-x86_64-linux/wasmtime
+IWASM ?= /opt/iwasm-1.3.1/iwasm
+WASMER ?= /opt/wasmer-4.2.3/bin/wasmer
+
+
 
 
 run: $(TARGET)

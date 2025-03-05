@@ -16,9 +16,9 @@ readonly tests_all="$tests $thread_tests"
 tests_run=""
 
 # Set the paths to the runtimes
-wasmtime="/home/julen/.wasmtime/bin/wasmtime"
-iwasm="/usr/local/bin/iwasm"
-wasmer="/home/julen/.wasmer/bin/wasmer"
+wasmtime="/opt/wasmtime-v16.0.0-x86_64-linux/wasmtime"
+iwasm="/opt/iwasm-1.3.1/iwasm"
+wasmer="/opt/wasmer-4.2.3/bin/wasmer"
 
 
 
