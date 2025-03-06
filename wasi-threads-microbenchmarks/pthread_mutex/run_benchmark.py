@@ -17,6 +17,9 @@ time_limit = 60
 # Array of benchmarks
 benchmarks=["no_contention", "contention"]
 
+# Array of thread numbers to run the benchmarks with
+num_threads=[8, 16, 32, 64]
+
 
 # Paths to runtimes
 wasmtime = "/opt/wasmtime-v16.0.0-x86_64-linux/wasmtime"
@@ -77,32 +80,34 @@ def main():
         with open(timecsv_file, "w") as time_file:
 
             # Write headers: runtime, time1, time2, ..., timeN
-            time_file.write("Runtime,Mean,StDev")
+            time_file.write("Threads,Runtime,Mean,StdDev")
 
-            # Run naive with glibc
-            command = [f"./build/{benchmark}"]
-            results = run_bench(command)
-            time_file.write(f"\nnative(glibc),{np.mean(results)},{np.std(results)}")
+            for threads in num_threads:
 
-            # Run naive with musl
-            command = [f"./build/{benchmark}.musl"]
-            results = run_bench(command)
-            time_file.write(f"\nnative(musl),{np.mean(results)},{np.std(results)}")
+                # Run naive with glibc
+                command = [f"./build/{benchmark}", str(threads)]
+                results = run_bench(command)
+                time_file.write(f"\n{threads},native(glibc),{np.mean(results)},{np.std(results)}")
 
-            # Run wasmtime.
-            command = [wasmtime, "-S", "threads", f"build/{benchmark}.wasm"]
-            results = run_bench(command)
-            time_file.write(f"\nwasmtime,{np.mean(results)},{np.std(results)}")
+                # Run naive with musl
+                command = [f"./build/{benchmark}.musl", str(threads)]
+                results = run_bench(command)
+                time_file.write(f"\n{threads},native(musl),{np.mean(results)},{np.std(results)}")
 
-            # Run iwasm.
-            command = [iwasm, "--max-threads=32", f"build/{benchmark}.wasm"]
-            results = run_bench(command)
-            time_file.write(f"\niwasm,{np.mean(results)},{np.std(results)}")
-            
-            # Run wasmer.
-            command = [wasmer, f"build/{benchmark}.wasm"]
-            results = run_bench(command)
-            time_file.write(f"\nwasmer,{np.mean(results)},{np.std(results)}")
+                # Run wasmtime.
+                command = [wasmtime, "-S", "threads", f"build/{benchmark}.wasm", str(threads)]
+                results = run_bench(command)
+                time_file.write(f"\n{threads},wasmtime,{np.mean(results)},{np.std(results)}")
+
+                # Run iwasm.
+                command = [iwasm, "--max-threads=32", f"build/{benchmark}.wasm", str(threads)]
+                results = run_bench(command)
+                time_file.write(f"\n{threads},iwasm,{np.mean(results)},{np.std(results)}")
+                
+                # Run wasmer.
+                command = [wasmer, f"build/{benchmark}.wasm", str(threads)]
+                results = run_bench(command)
+                time_file.write(f"\n{threads},wasmer,{np.mean(results)},{np.std(results)}")
 
 
 
