@@ -1,6 +1,6 @@
 # CCGrid2025
 Artifacts related to [Let It Unthread: The Good, The Bad and The Ugly
-within WebAssembly Portable Multithreading]([https://](https://ieeexplore.ieee.org/abstract/document/11044807))
+within WebAssembly Portable Multithreading](https://ieeexplore.ieee.org/abstract/document/11044807)
 
 
 # Artifact Overview
