@@ -54,6 +54,17 @@ install_musl_cross() {
     sudo rm -rf "$MUSL"
     sudo mv "$TMP_DIR"/* "$MUSL"
     rm -rf "$TMP_DIR"
+
+    # Generate symlink for the dynamic loader
+    case "$ARCH" in
+        x86_64)
+            sudo ln -sf "$MUSL/x86_64-linux-musl/lib/libc.so" /lib/ld-musl-x86_64.so.1
+            ;;
+        aarch64)
+            sudo ln -sf "$MUSL/aarch64-linux-musl/lib/libc.so" /lib/ld-musl-aarch64.so.1
+            ;;
+    esac
+    
     echo "musl-cross installed at $MUSL"
 }
 
