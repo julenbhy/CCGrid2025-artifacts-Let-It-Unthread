@@ -3,7 +3,6 @@ import os
 import subprocess
 import re
 
-
 # Number of runs for each benchmark
 num_runs = 30
 
@@ -57,12 +56,6 @@ def run_bench(command):
 
 
 def main():
-
-    # Export the paths so the Makefiles can use them
-    os.environ["WASI_SDK"] = WASI_SDK
-    os.environ["MUSL"] = MUSL
-    os.environ["WASMTIME"] = WASMTIME
-
 
     # Compile all benchmarks
     compile()
