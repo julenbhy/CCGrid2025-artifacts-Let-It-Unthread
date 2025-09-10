@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Set the paths to the cross-compilers
-MUSL="/opt/x86_64-linux-musl-cross"
-WASI_SDK="/opt/wasi-sdk"
-
 # build mimalloc
 if [ ! -d "mimalloc" ]; then
     echo "Building mimalloc..."
