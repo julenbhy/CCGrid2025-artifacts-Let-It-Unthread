@@ -18,16 +18,12 @@ num_threads = [100, 1000, 10000]
 
 
 # Paths to runtimes
-wasmtime = "/opt/wasmtime-v16.0.0-x86_64-linux/wasmtime"
-iwasm = "/opt/iwasm-1.3.1/iwasm"
-wasmer = "/opt/wasmer-4.2.3/bin/wasmer"
+wasmtime = os.environ["WASMTIME"]
+iwasm = os.environ["IWASM"]
+wasmer = os.environ["WASMER"]
 
 # Export the paths for Makefile
-os.environ["CC"] = "/usr/bin/gcc"
-os.environ["MUSL"] = "/opt/x86_64-linux-musl-cross"
-os.environ["WASI_SDK"] = "/opt/wasi-sdk"
-
-    
+os.environ["CC"] = "/usr/bin/gcc"    
 
 
 def run_bench(command):
