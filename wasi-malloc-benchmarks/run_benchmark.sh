@@ -16,9 +16,9 @@ readonly tests_all="$tests $thread_tests"
 tests_run=""
 
 # Set the paths to the runtimes
-wasmtime="/opt/wasmtime-v16.0.0-x86_64-linux/wasmtime"
-iwasm="/opt/iwasm-1.3.1/iwasm"
-wasmer="/opt/wasmer-4.2.3/bin/wasmer"
+wasmtime="$WASMTIME"
+iwasm="$IWASM"
+wasmer="$WASMER"
 
 
 
