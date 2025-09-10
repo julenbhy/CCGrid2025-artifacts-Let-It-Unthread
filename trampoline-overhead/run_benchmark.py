@@ -13,12 +13,6 @@ verbose = False
 # Time limit for each benchmark
 time_limit = 60
 
-# Set the environment variables for the WASI SDK, MUSL and WASMTIME
-WASI_SDK = "/opt/wasi-sdk"
-MUSL = "/opt/x86_64-linux-musl-cross"
-WASMTIME = "/opt/wasmtime-v16.0.0-x86_64-linux/wasmtime"
-
-
 def compile():
     # Compile all benchmarks
     print("Compiling benchmarks...")
