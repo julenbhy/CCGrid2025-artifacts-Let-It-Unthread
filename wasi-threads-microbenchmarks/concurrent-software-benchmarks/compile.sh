@@ -1,7 +1,5 @@
 #!/bin/bash
 
-MUSL_PATH="/opt/x86_64-linux-musl-cross"
-WASI_PATH="/opt/wasi-sdk"
 path="build"
 
 mkdir -p "$path"
