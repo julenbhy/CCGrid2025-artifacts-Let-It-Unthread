@@ -3,10 +3,6 @@ set -ex
 
 ARCH=$(uname -m)
 INSTALL_DIR="/opt"
-WASI_VERSION="25"
-WASMTIME_VERSION="16.0.0"
-IWASM_VERSION="2.1.2"
-WASMER_VERSION="4.2.3"
 
 echo "Detected architecture: $ARCH"
 
