@@ -21,13 +21,7 @@ num_threads = [32, 64]
 
 # Export the paths so the Makefiles can use them
 os.environ["CC"] = "/usr/bin/gcc"
-os.environ["MUSL"] = "/opt/x86_64-linux-musl-cross"
-os.environ["WASI_SDK"] = "/opt/wasi-sdk"
 os.environ["WASI_SDK_20"] = "/opt/wasi-sdk-20.0" # Fluidanimate does't compile with wasi-sdk 21
-
-os.environ["WASMTIME"] = "/opt/wasmtime-v16.0.0-x86_64-linux/wasmtime"   
-os.environ["IWASM"] = "/opt/iwasm-1.3.1/iwasm"
-os.environ["WASMER"] = "/opt/wasmer-4.2.3/bin/wasmer"
 
 
 # Define a function to extract values from the multitime results
