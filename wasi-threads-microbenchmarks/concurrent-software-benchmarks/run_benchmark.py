@@ -37,9 +37,9 @@ benchmarks = [
 ]
 
 # Paths to runtimes
-wasmtime = "/opt/wasmtime-v16.0.0-x86_64-linux/wasmtime"
-iwasm = "/opt/iwasm-1.3.1/iwasm"
-wasmer = "/opt/wasmer-4.2.3/bin/wasmer"
+wasmtime = os.environ["WASMTIME"]
+iwasm = os.environ["IWASM"]
+wasmer = os.environ["WASMER"]
     
 
 
