@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -euxo pipefail
 
 # Cargar variables de entorno
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -132,10 +132,10 @@ install_wasmer() {
     TMP_DIR=$(mktemp -d)
     curl -sL "https://github.com/wasmerio/wasmer/releases/download/v${WASMER_VERSION}/${WASMER_TAR}" \
         | tar -xz -C "$TMP_DIR"
-    sudo rm -rf "$(dirname "$WASMER")"
-    sudo mkdir -p "$(dirname "$WASMER")"
-    sudo mv "$TMP_DIR"/wasmer-*/* "$(dirname "$WASMER")"
-    rm -rf "$TMP_DIR"
+
+    sudo rm -rf "/opt/wasmer-${WASMER_VERSION}"
+    sudo mv "$TMP_DIR" "/opt/wasmer-${WASMER_VERSION}"
+
     $WASMER --version
 }
 
@@ -161,3 +161,9 @@ main() {
 }
 
 main "$@"
+
+
+
+# ADD:
+#numpy
+#curl

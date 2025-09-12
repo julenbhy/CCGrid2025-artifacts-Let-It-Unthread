@@ -14,8 +14,10 @@ MUSL_FLAGS =-Wl,-rpath,$(MUSL)/x86_64-linux-musl/lib
 
 
 # Compilation with wasi-sdk/clang
-WASI_SDK_20 ?= /opt/wasi-sdk-20.0
-WASI_CC = $(WASI_SDK_20)/bin/clang
+#WASI_SDK_20 ?= /opt/wasi-sdk-20.0
+#WASI_CC = $(WASI_SDK_20)/bin/clang
+WASI_SDK ?= /opt/wasi-sdk
+WASI_CC = $(WASI_SDK)/bin/clang
 WASI_CFLAGS = --target=wasm32-wasi-threads
 WASI_CFLAGS += -g -funroll-loops -fpermissive -fno-exceptions -DPARSEC_VERSION=3.0-beta-20150206  -Wno-invalid-offsetof -DENABLE_THREADS -D_GNU_SOURCE -D__XOPEN_SOURCE=600
 WASI_LDFLAGS = -Wl,--import-memory,--export-memory,--max-memory=4294901760 -lwasi-emulated-process-clocks

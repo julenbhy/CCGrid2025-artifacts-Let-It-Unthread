@@ -20,7 +20,6 @@ benchmarks = ["blackscholes", "fluidanimate", "swaptions"]
 num_threads = [32, 64]
 
 # Export the paths so the Makefiles can use them
-os.environ["CC"] = "/usr/bin/gcc"
 os.environ["WASI_SDK_20"] = "/opt/wasi-sdk-20.0" # Fluidanimate does't compile with wasi-sdk 21
 
 

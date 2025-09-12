@@ -24,7 +24,7 @@ iwasm = os.environ["IWASM"]
 wasmer = os.environ["WASMER"]
 
 # Export the paths for Makefile
-os.environ["CC"] = "/usr/bin/gcc"
+#os.environ["CC"] = "/usr/bin/gcc"
 
 
 def run_bench(command):
