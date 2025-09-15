@@ -7,15 +7,18 @@ source "$SCRIPT_DIR/env.sh"
 
 echo "Setting up for architecture: $ARCH"
 
-install_rust_and_deps() {
+install_others() {
+    sudo apt update
+    sudo apt install -y git curl build-essential cmake m4 time multitime
+}
+
+install_rust() {
     if command -v rustc &>/dev/null; then
         echo "Rust already installed ($(rustc --version))"
         return
     fi
     echo "Installing Rust and build dependencies..."
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-    sudo apt update
-    sudo apt install -y build-essential cmake m4 multitime
 }
 
 install_wasi_sdk() {
@@ -140,12 +143,13 @@ install_wasmer() {
 main() {
     local targets=("$@")
     if [ ${#targets[@]} -eq 0 ]; then
-        targets=(rust wasi musl wasmtime iwasm wasmer)
+        targets=(others rust wasi musl wasmtime iwasm wasmer)
     fi
 
     for target in "${targets[@]}"; do
         case "$target" in
-            rust) install_rust_and_deps ;;
+            others) install_others ;;
+            rust) install_rust ;;
             wasi) install_wasi_sdk ;;
             musl) install_musl ;;
             wasmtime) install_wasmtime ;;
@@ -159,9 +163,3 @@ main() {
 }
 
 main "$@"
-
-
-
-# ADD:
-#numpy
-#curl
