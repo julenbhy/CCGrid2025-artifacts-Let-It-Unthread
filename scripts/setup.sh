@@ -5,9 +5,7 @@ set -euxo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 source "$SCRIPT_DIR/env.sh"
 
-ARCH=$(uname -m)
-
-echo "Detected architecture: $ARCH"
+echo "Setting up for architecture: $ARCH"
 
 install_rust_and_deps() {
     if command -v rustc &>/dev/null; then
@@ -39,15 +37,15 @@ install_wasi_sdk() {
     echo "wasi-sdk installed at $WASI_SDK"
 }
 
-install_musl_cross() {
+install_musl() {
     if [ -d "$MUSL" ]; then
-        echo "musl-cross already installed at $MUSL"
+        echo "musl already installed at $MUSL"
         return
     fi
     case "$ARCH" in
-        x86_64) MUSL_TAR="x86_64-linux-musl-cross.tgz" ;;
-        aarch64) MUSL_TAR="aarch64-linux-musl-cross.tgz" ;;
-        *) echo "Unsupported architecture for musl-cross: $ARCH"; exit 1 ;;
+        x86_64) MUSL_TAR="x86_64-linux-musl-native.tgz" ;;
+        aarch64) MUSL_TAR="aarch64-linux-musl-native.tgz" ;;
+        *) echo "Unsupported architecture for musl: $ARCH"; exit 1 ;;
     esac
     TMP_DIR=$(mktemp -d)
     curl -sL "https://musl.cc/${MUSL_TAR}" | tar -xz -C "$TMP_DIR"
@@ -58,14 +56,14 @@ install_musl_cross() {
     # Generate symlink for the dynamic loader
     case "$ARCH" in
         x86_64)
-            sudo ln -sf "$MUSL/x86_64-linux-musl/lib/libc.so" /lib/ld-musl-x86_64.so.1
+            sudo ln -sf "$MUSL/lib/libc.so" /lib/ld-musl-x86_64.so.1
             ;;
         aarch64)
-            sudo ln -sf "$MUSL/aarch64-linux-musl/lib/libc.so" /lib/ld-musl-aarch64.so.1
+            sudo ln -sf "$MUSL/lib/libc.so" /lib/ld-musl-aarch64.so.1
             ;;
     esac
-    
-    echo "musl-cross installed at $MUSL"
+
+    echo "musl installed at $MUSL"
 }
 
 install_wasmtime() {
@@ -149,7 +147,7 @@ main() {
         case "$target" in
             rust) install_rust_and_deps ;;
             wasi) install_wasi_sdk ;;
-            musl) install_musl_cross ;;
+            musl) install_musl ;;
             wasmtime) install_wasmtime ;;
             iwasm) install_iwasm ;;
             wasmer) install_wasmer ;;

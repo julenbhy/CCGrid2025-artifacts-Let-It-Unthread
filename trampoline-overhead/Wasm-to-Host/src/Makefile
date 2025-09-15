@@ -27,7 +27,7 @@ $(TARGET).wasm: $(TARGET).c
 
 
 # Add any additional wasmtime flags here
-WASMTIME ?= /opt/wasmtime-v16.0.0-x86_64-linux/wasmtime
+WASMTIME ?= /opt/wasmtime-v16.0.0/wasmtime
 WASMTIME_FLAGS =
 
 INPUT ?=

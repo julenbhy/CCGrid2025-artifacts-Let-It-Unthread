@@ -7,9 +7,8 @@ CC ?= /usr/bin/gcc
 CFLAGS =
 LDFLAGS =
 
-MUSL ?= /opt/x86_64-linux-musl-cross
-MUSL_CC = $(MUSL)/bin/x86_64-linux-musl-gcc
-MUSL_FLAGS =-Wl,-rpath,$(MUSL)/x86_64-linux-musl/lib
+MUSL_CC = $(MUSL)/bin/$(ARCH)-linux-musl-gcc
+MUSL_FLAGS =-Wl,-rpath,$(MUSL)/$(ARCH)-linux-musl/lib
 
 # Compilation with wasi-sdk/clang
 WASI_SDK ?= /opt/wasi-sdk
@@ -35,7 +34,7 @@ $(TARGET).wasm: $(TARGET).c
 
 INPUT ?= 10
 
-WASMTIME ?= /opt/wasmtime-v16.0.0-x86_64-linux/wasmtime
+WASMTIME ?= /opt/wasmtime-v16.0.0/wasmtime
 IWASM ?= /opt/iwasm-1.3.1/iwasm
 WASMER ?= /opt/wasmer-4.2.3/bin/wasmer
 

@@ -8,9 +8,8 @@ CFLAGS = -g -funroll-loops -fprefetch-loop-arrays -fpermissive -fno-exceptions -
 LDFLAGS = -lstdc++ -L/usr/lib64 -L/usr/lib
 
 # Compilation with musl-gcc
-MUSL ?= /opt/x86_64-linux-musl-cross
-MUSL_CC = $(MUSL)/bin/x86_64-linux-musl-g++
-MUSL_FLAGS =-Wl,-rpath,$(MUSL)/x86_64-linux-musl/lib
+MUSL_CC = $(MUSL)/bin/$(ARCH)-linux-musl-gcc
+MUSL_FLAGS =-Wl,-rpath,$(MUSL)/$(ARCH)-linux-musl/lib
 
 
 # Compilation with wasi-sdk/clang
@@ -59,7 +58,7 @@ INPUT = $(THREADS) 500 $(SIZE) out.fluid
 # Small: in_35K.fluid		Medium: in_100K.fluid		Large: in_300K.fluid
 # Must descompress the input files first
 
-WASMTIME ?= /opt/wasmtime-v16.0.0-x86_64-linux/wasmtime
+WASMTIME ?= /opt/wasmtime-v16.0.0/wasmtime
 IWASM ?= /opt/iwasm-1.3.1/iwasm
 WASMER ?= /opt/wasmer-4.2.3/bin/wasmer
 
