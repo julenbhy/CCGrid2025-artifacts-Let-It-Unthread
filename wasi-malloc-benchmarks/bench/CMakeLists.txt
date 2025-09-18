@@ -79,9 +79,9 @@ endif()
 
 # Set common flags for musl copmilation
 if(COMPILE_WITH_MUSL)
-  set(CMAKE_C_COMPILER "${MUSL_PATH}/bin/x86_64-linux-musl-gcc")
-  set(CMAKE_CXX_COMPILER "${MUSL_PATH}/bin/x86_64-linux-musl-g++")
-  set(MUSL_FLAGS " -Wl,-rpath,${MUSL_PATH}/x86_64-linux-musl/lib")
+  set(CMAKE_C_COMPILER "${MUSL_C_COMPILER}")
+  set(CMAKE_CXX_COMPILER "${MUSL_CXX_COMPILER}")
+  set(MUSL_FLAGS " -Wl,-rpath,${MUSL_LIB}")
   string(APPEND CMAKE_C_FLAGS ${MUSL_FLAGS})
   string(APPEND CMAKE_CXX_FLAGS ${MUSL_FLAGS})
   set(CMAKE_EXECUTABLE_SUFFIX ".musl")
