@@ -12,18 +12,25 @@ if [ ! -d "mimalloc" ]; then
 fi
 
 
+# Set the Musl paths for the current architecture
+MUSL_C_COMPILER="${MUSL}/bin/${ARCH}-linux-musl-gcc"
+MUSL_CXX_COMPILER="${MUSL}/bin/${ARCH}-linux-musl-g++"
+MUSL_LIB="${MUSL}/${ARCH}-linux-musl/lib"
+
 # Build the benchmarks
 rm -rf build && mkdir build && cd build
 
 # Compile non threaded benchmarks
+
 cmake -DTHREAD_BENCHMARKS=OFF ../bench
 make
 rm -rf CMakeFiles CMakeCache.txt cmake_install.cmake Makefile
 
-cmake -DTHREAD_BENCHMARKS=OFF -DCOMPILE_WITH_MUSL=ON -DMUSL_PATH=$MUSL ../bench
+cmake -DTHREAD_BENCHMARKS=OFF -DCOMPILE_WITH_MUSL=ON \
+      -DMUSL_C_COMPILER=$MUSL_C_COMPILER -DMUSL_CXX_COMPILER=$MUSL_CXX_COMPILER -DMUSL_LIB=$MUSL_LIB\
+       ../bench
 make
 rm -rf CMakeFiles CMakeCache.txt cmake_install.cmake Makefile
-
 
 cmake -DTHREAD_BENCHMARKS=OFF -DCOMPILE_TO_WASM=ON -DWASI_SDK_PATH=$WASI_SDK ../bench
 make
@@ -39,10 +46,11 @@ cmake -DTHREAD_BENCHMARKS=ON ../bench
 make
 rm -rf CMakeFiles CMakeCache.txt cmake_install.cmake Makefile
 
-cmake -DTHREAD_BENCHMARKS=ON -DCOMPILE_WITH_MUSL=ON -DMUSL_PATH=$MUSL ../bench
+cmake -DTHREAD_BENCHMARKS=ON -DCOMPILE_WITH_MUSL=ON \
+      -DMUSL_C_COMPILER=$MUSL_C_COMPILER -DMUSL_CXX_COMPILER=$MUSL_CXX_COMPILER -DMUSL_LIB=$MUSL_LIB\
+       ../bench
 make
 rm -rf CMakeFiles CMakeCache.txt cmake_install.cmake Makefile
-
 
 cmake -DTHREAD_BENCHMARKS=ON -DCOMPILE_TO_WASM=ON -DWASI_SDK_PATH=$WASI_SDK ../bench
 make
