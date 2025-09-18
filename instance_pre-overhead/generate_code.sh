@@ -45,7 +45,7 @@ sed -i '/let instance = instance_pre.instantiate(&mut store).unwrap();/a println
 ### compile wasmtime-modified ###
 echo "Compiling wasmtime-modified..."
 # Write rust-toolchain file for setting toolchain to 1.73.0
-echo "1.73.0" > wasmtime/rust-toolchain
+echo "1.73.0" > rust-toolchain
 cargo build --release --manifest-path wasmtime/Cargo.toml 2>/dev/null
 echo "Done."
 
