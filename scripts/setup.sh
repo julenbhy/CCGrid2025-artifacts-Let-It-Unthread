@@ -95,28 +95,37 @@ install_iwasm() {
         $IWASM --version || true
         return
     fi
+
     sudo rm -rf "$(dirname "$IWASM")"
     sudo mkdir -p "$(dirname "$IWASM")"
+
     case "$ARCH" in
         x86_64)
+            # Download prebuilt binary for x86_64
             IWASM_TAR="iwasm-${IWASM_VERSION}-x86_64-ubuntu-22.04.tar.gz"
             curl -sL "https://github.com/bytecodealliance/wasm-micro-runtime/releases/download/WAMR-${IWASM_VERSION}/${IWASM_TAR}" \
                 | sudo tar -xz -C "$(dirname "$IWASM")"
             ;;
         aarch64)
-            curl -sL "https://github.com/bytecodealliance/wasm-micro-runtime/archive/refs/tags/WAMR-${IWASM_VERSION}.tar.gz" \
-                | tar -xz
-            cd wasm-micro-runtime-WAMR-${IWASM_VERSION}/product-mini/platforms/linux
+            # Build from source for aarch64
+            TMP_DIR=$(mktemp -d)
+            git clone --branch "WAMR-${IWASM_VERSION}" --depth 1 https://github.com/bytecodealliance/wasm-micro-runtime.git "$TMP_DIR"
+
+            pushd "$TMP_DIR/product-mini/platforms/linux" >/dev/null
             mkdir build && cd build
-            cmake .. -DWAMR_BUILD_TARGET=AARCH64
-            make
+            cmake .. -DWAMR_BUILD_LIB_PTHREAD_SEMAPHORE=1 -DWAMR_BUILD_LIB_WASI_THREADS=1 -DWAMR_BUILD_REF_TYPES=1 # Enables pthread support with semaphores
+            make -j"$(nproc)"
+
             sudo cp iwasm "$IWASM"
-            cd "$SCRIPT_DIR"
-            rm -rf wasm-micro-runtime-WAMR-${IWASM_VERSION}
+            popd >/dev/null
             ;;
         *) echo "Unsupported architecture for iwasm: $ARCH"; exit 1 ;;
     esac
+
+            rm -rf "$TMP_DIR"
+
     $IWASM --version || true
+    echo "iwasm installed at $IWASM"
 }
 
 install_wasmer() {

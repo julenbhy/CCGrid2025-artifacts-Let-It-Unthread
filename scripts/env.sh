@@ -6,7 +6,7 @@ echo "Detected architecture: $ARCH"
 # Versions
 export WASI_VERSION="25"
 export WASMTIME_VERSION="16.0.0"
-export IWASM_VERSION="2.1.2"
+export IWASM_VERSION="1.3.1"
 export WASMER_VERSION="4.2.3"
 
 # Instalation paths
