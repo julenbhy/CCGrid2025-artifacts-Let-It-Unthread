@@ -9,7 +9,7 @@ LDFLAGS = -L/usr/lib64 -L/usr/lib
 
 # Compilation with musl-gcc
 MUSL_CC = $(MUSL)/bin/$(ARCH)-linux-musl-gcc
-MUSL_FLAGS =-Wl,-rpath,$(MUSL)/$(ARCH)-linux-musl/lib
+MUSL_FLAGS =-Wl,-rpath,$(MUSL)/lib
 
 # Compilation with wasi-sdk/clang
 WASI_SDK ?= /opt/wasi-sdk

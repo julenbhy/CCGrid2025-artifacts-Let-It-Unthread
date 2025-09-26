@@ -15,7 +15,7 @@ fi
 # Set the Musl paths for the current architecture
 MUSL_C_COMPILER="${MUSL}/bin/${ARCH}-linux-musl-gcc"
 MUSL_CXX_COMPILER="${MUSL}/bin/${ARCH}-linux-musl-g++"
-MUSL_LIB="${MUSL}/${ARCH}-linux-musl/lib"
+MUSL_LIB="${MUSL}/lib"
 
 # Build the benchmarks
 rm -rf build && mkdir build && cd build
