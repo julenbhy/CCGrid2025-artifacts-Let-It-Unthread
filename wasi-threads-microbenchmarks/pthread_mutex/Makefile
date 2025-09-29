@@ -4,17 +4,17 @@ LIBS = -pthread
 
 # Compilation with gcc
 CC ?= /usr/bin/gcc
-CFLAGS =
+CFLAGS = -w
 LDFLAGS =
 
 MUSL_CC = $(MUSL)/bin/$(ARCH)-linux-musl-gcc
-MUSL_FLAGS =-Wl,-rpath,$(MUSL)/lib
+MUSL_FLAGS =-Wl,-rpath,$(MUSL)/lib -w
 
 # Compilation with wasi-sdk/clang
 WASI_SDK ?= /opt/wasi-sdk
 WASI_CC = $(WASI_SDK)/bin/clang
 WASI_CFLAGS = --target=wasm32-wasi-threads
-WASI_LDFLAGS = -Wl,--import-memory,--export-memory,--max-memory=4294901760
+WASI_LDFLAGS = -w -Wl,--import-memory,--export-memory,--max-memory=4294901760
 
 
 .PHONY: all clean
