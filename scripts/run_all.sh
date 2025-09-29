@@ -34,12 +34,12 @@ run_step() {
 
 # --- instance_pre-overhead ---
 pushd instance_pre-overhead > /dev/null
-#run_step "instance_pre-overhead: run_benchmark.py" python3 run_benchmark.py
+run_step "instance_pre-overhead: run_benchmark.py -v" python3 run_benchmark.py
 popd > /dev/null
 
 # --- trampoline-overhead ---
 pushd trampoline-overhead > /dev/null
-#run_step "trampoline-overhead: run_benchmark.py" python3 run_benchmark.py
+run_step "trampoline-overhead: run_benchmark.py -v" python3 run_benchmark.py
 popd > /dev/null
 
 # --- wasi-malloc-benchmarks ---
@@ -52,25 +52,25 @@ popd > /dev/null
 
 # --- wasi-threads-benchmarks ---
 pushd wasi-threads-benchmarks/parsec > /dev/null
-run_step "wasi-threads-benchmarks/parsec: run_benchmark.py" python3 run_benchmark.py
+run_step "wasi-threads-benchmarks/parsec: run_benchmark.py -v" python3 run_benchmark.py
 popd > /dev/null
 
 pushd wasi-threads-benchmarks/pthread_create > /dev/null
-run_step "wasi-threads-benchmarks/pthread_create: run_benchmark.py" python3 run_benchmark.py
+run_step "wasi-threads-benchmarks/pthread_create: run_benchmark.py -v" python3 run_benchmark.py
 popd > /dev/null
 
 pushd wasi-threads-benchmarks/pthread_create_RSS > /dev/null
-run_step "wasi-threads-benchmarks/pthread_create_RSS: run_benchmark.py" python3 run_benchmark.py
+run_step "wasi-threads-benchmarks/pthread_create_RSS: run_benchmark.py -v" python3 run_benchmark.py
 popd > /dev/null
 
 # --- wasi-threads-microbenchmarks ---
 pushd wasi-threads-microbenchmarks/concurrent-software-benchmarks > /dev/null
 run_step "wasi-threads-microbenchmarks/concurrent-software-benchmarks: compile.sh" ./compile.sh
-run_step "wasi-threads-microbenchmarks/concurrent-software-benchmarks: run_benchmark.py" python3 run_benchmark.py
+run_step "wasi-threads-microbenchmarks/concurrent-software-benchmarks: run_benchmark.py -v" python3 run_benchmark.py
 popd > /dev/null
 
 pushd wasi-threads-microbenchmarks/pthread_mutex > /dev/null
-run_step "wasi-threads-microbenchmarks/pthread_mutex: run_benchmark.py" python3 run_benchmark.py
+run_step "wasi-threads-microbenchmarks/pthread_mutex: run_benchmark.py -v" python3 run_benchmark.py
 popd > /dev/null
 
 
