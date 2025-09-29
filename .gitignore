@@ -1,0 +1,25 @@
+# Ignore compiled files
+**/*.wasm
+**/*.musl
+**/*.o
+
+# Ignore some specific files
+blackscholes
+fluidanimate
+swaptions
+rust-toolchain
+**/main*
+**/Cargo.lock
+
+# Ignore build directories
+**/build/
+**/target/
+
+# Ignore all text and CSV files
+**/*.txt
+**/*.csv
+**/*.csv.line
+**/*.json
+
+# Ignore logs
+**/*.log
