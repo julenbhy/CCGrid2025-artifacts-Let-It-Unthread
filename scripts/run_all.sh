@@ -6,36 +6,47 @@ ROOT_DIR=$(pwd)
 
 echo "=== Running all benchmarks ==="
 
+# Ensure logs folder exists
+mkdir -p logs
+
+
+LOG_DIR="$ROOT_DIR/logs"
+mkdir -p "$LOG_DIR"
+
+PASSED=()
+FAILED=()
+
 run_step() {
     local desc="$1"
     shift
+    local log_name=$(echo "$desc" | tr '/: ' '__')
     echo -e "\n--- $desc ---"
-    "$@" > >(tee -a logs/${desc// /_}.log) 2>&1
+    "$@" > >(tee -a "${LOG_DIR}/${log_name}.log") 2>&1
     local status=$?
     if [ $status -ne 0 ]; then
         echo "⚠️  [WARNING] Step '$desc' failed with exit code $status, continuing..."
+        FAILED+=("$desc")
+    else
+        PASSED+=("$desc")
     fi
-    return 0  # always return success so the script continues
+    return 0
 }
-
-# Create logs folder
-mkdir -p logs
 
 # --- instance_pre-overhead ---
 pushd instance_pre-overhead > /dev/null
-run_step "instance_pre-overhead: run_benchmark.py" python3 run_benchmark.py
+#run_step "instance_pre-overhead: run_benchmark.py" python3 run_benchmark.py
 popd > /dev/null
 
 # --- trampoline-overhead ---
 pushd trampoline-overhead > /dev/null
-run_step "trampoline-overhead: run_benchmark.py" python3 run_benchmark.py
+#run_step "trampoline-overhead: run_benchmark.py" python3 run_benchmark.py
 popd > /dev/null
 
 # --- wasi-malloc-benchmarks ---
 pushd wasi-malloc-benchmarks > /dev/null
-run_step "wasi-malloc-benchmarks: build.sh" ./build.sh
+run_step "wasi-malloc-benchmarks: compile.sh" ./compile.sh
 pushd build > /dev/null
-run_step "wasi-malloc-benchmarks: run_benchmark allt allr" ../run_benchmark allt allr
+run_step "wasi-malloc-benchmarks: run_benchmark.sh allt allr" ../run_benchmark.sh allt allr
 popd > /dev/null
 popd > /dev/null
 
@@ -62,5 +73,24 @@ pushd wasi-threads-microbenchmarks/pthread_mutex > /dev/null
 run_step "wasi-threads-microbenchmarks/pthread_mutex: run_benchmark.py" python3 run_benchmark.py
 popd > /dev/null
 
-echo -e "\n=== All benchmarks finished (some may have failed) ==="
-echo "Check the logs/ directory for details."
+
+# --- Summary ---
+echo -e "\n=== Benchmark Summary ==="
+
+if [ ${#PASSED[@]} -gt 0 ]; then
+    echo "PASSED:"
+    for step in "${PASSED[@]}"; do
+        echo "   - $step"
+    done
+fi
+
+if [ ${#FAILED[@]} -gt 0 ]; then
+    echo -e "\nFAILED:"
+    for step in "${FAILED[@]}"; do
+        echo "   - $step"
+    done
+else
+    echo -e "\n🎉 All steps passed!"
+fi
+
+echo -e "\nLogs for each step are stored in ./logs/"
