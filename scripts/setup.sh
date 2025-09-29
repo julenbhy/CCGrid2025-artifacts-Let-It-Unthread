@@ -113,7 +113,11 @@ install_iwasm() {
 
             pushd "$TMP_DIR/product-mini/platforms/linux" >/dev/null
             mkdir build && cd build
-            cmake .. -DWAMR_BUILD_LIB_PTHREAD_SEMAPHORE=1 -DWAMR_BUILD_LIB_WASI_THREADS=1 -DWAMR_BUILD_REF_TYPES=1 # Enables pthread support with semaphores
+            cmake .. \
+                -DWAMR_BUILD_LIB_PTHREAD_SEMAPHORE=1 \
+                -DWAMR_BUILD_LIB_WASI_THREADS=1 \
+                -DWAMR_BUILD_REF_TYPES=1 \
+                -DCMAKE_C_FLAGS="-DAPP_THREAD_STACK_SIZE_DEFAULT=131072 -DAPP_THREAD_STACK_SIZE_MIN=131072"
             make -j"$(nproc)"
 
             sudo cp iwasm "$IWASM"
