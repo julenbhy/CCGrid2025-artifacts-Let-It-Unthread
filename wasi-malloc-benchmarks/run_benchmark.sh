@@ -287,8 +287,8 @@ function run_test_cmd {  # <test name> <command>
           wasmtime_mimalloc) run_test_env_cmd $1 "wasmtime_mimalloc" "$wasmtime $wasmtime_thread_args --dir .. ./$1_mimalloc.wasm $2" $i;;
           iwasm) run_test_env_cmd $1 "iwasm" "$iwasm $iwasm_thread_args --dir=.. ./$1.wasm $2" $i;;
           iwasm_mimalloc) run_test_env_cmd $1 "iwasm_mimalloc" "$iwasm $iwasm_thread_args --dir=.. ./$1_mimalloc.wasm $2" $i;;
-          wasmer) run_test_env_cmd $1 "wasmer" "$wasmer ./$1.wasm -- $2" $i;;
-          wasmer_mimalloc) run_test_env_cmd $1 "wasmer_mimalloc" "$wasmer ./$1_mimalloc.wasm -- $2" $i;;
+          wasmer) run_test_env_cmd $1 "wasmer" "$wasmer  --dir .. ./$1.wasm -- $2" $i;;
+          wasmer_mimalloc) run_test_env_cmd $1 "wasmer_mimalloc" "$wasmer  --dir .. ./$1_mimalloc.wasm -- $2" $i;;
         esac
       done
     fi
