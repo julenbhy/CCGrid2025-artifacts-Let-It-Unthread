@@ -21,7 +21,7 @@ run_step() {
     shift
     local log_name=$(echo "$desc" | tr '/: ' '__')
     echo -e "\n--- $desc ---"
-    "$@" > >(tee -a "${LOG_DIR}/${log_name}.log") 2>&1
+    "$@" > >(tee "${LOG_DIR}/${log_name}.log") 2>&1
     local status=$?
     if [ $status -ne 0 ]; then
         echo "⚠️  [WARNING] Step '$desc' failed with exit code $status, continuing..."
@@ -90,7 +90,7 @@ if [ ${#FAILED[@]} -gt 0 ]; then
         echo "   - $step"
     done
 else
-    echo -e "\n🎉 All steps passed!"
+    echo -e "\nAll steps passed!"
 fi
 
 echo -e "\nLogs for each step are stored in ./logs/"
