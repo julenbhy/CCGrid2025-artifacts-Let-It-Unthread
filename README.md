@@ -28,7 +28,7 @@ We provide an automated installation script to simplify the setup process.
 Run the following commands:
 
 ```bash
-scripts/setup.sh
+./scripts/setup.sh
 ```
 
 This script will automatically install all the dependencies (wasi-sdk, musl-cross, wasmtime, iwasm, wasmer, rust, and other tools) according to your architecture (x86_64 or aarch64).
@@ -36,7 +36,7 @@ This script will automatically install all the dependencies (wasi-sdk, musl-cros
 You can also install individual components by passing them as arguments to the script. For example:
 
 ```bash
-scripts/setup.sh wasmtime iwasm
+./scripts/setup.sh wasmtime iwasm
 ```
 
 If any error occurs during the automated installation, you can install the dependencies manually.
@@ -47,7 +47,7 @@ In each section, the setup allows for easy compilation provided that all require
 
 We provide a script that automates the execution of all experiments across the different sections. This script compiles and runs everything and stores the generated logs under the logs/ directory for easier inspection.
 ```bash
-scripts/run_all.sh
+./scripts/run_all.sh
 ```
 
 Additionally, within each section, a ```run_benchmark``` script is provided. These scripts facilitate the compilation and execution of various experiments. They enable users to select the number of threads for application execution, as well as the number of replicas or the applications to be evaluated.

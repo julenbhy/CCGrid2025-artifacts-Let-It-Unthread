@@ -15,11 +15,12 @@ rust-toolchain
 **/build/
 **/target/
 
-# Ignore all text and CSV files
+# Ignore ersult files
 **/*.txt
 **/*.csv
 **/*.csv.line
 **/*.json
+**/*.png
 
 # Ignore logs
 **/*.log
