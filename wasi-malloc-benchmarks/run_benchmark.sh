@@ -34,7 +34,7 @@ procs=64
 repeats=1          # repeats of all tests
 test_repeats=30     # repeats per test
 sleep=0            # mini sleeps between tests seem to improve stability
-max_time=900            # max time for timeout
+max_time=600            # max time for timeout
 
 libc=`ldd --version 2>&1 | head -n 1` || true
 libc="${libc#ldd }"
