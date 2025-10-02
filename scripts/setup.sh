@@ -22,6 +22,14 @@ install_rust() {
 
     # Load cargo env without restarting terminal
     source "$HOME/.cargo/env"
+
+    # Check installation
+    if rustc --version &>/dev/null; then
+        echo "Rust installed successfully: $(rustc --version)"
+    else
+        echo "Error: Rust installation failed. Please check rustup logs." >&2
+        exit 1
+    fi
 }
 
 install_wasi_sdk() {
