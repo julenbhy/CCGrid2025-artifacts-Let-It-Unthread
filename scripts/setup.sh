@@ -10,6 +10,8 @@ echo "Setting up for architecture: $ARCH"
 install_others() {
     sudo apt update
     sudo apt install -y git curl build-essential cmake m4 time multitime
+    sudo apt install -y python3-pip
+    pip3 install numpy --break-system-packages
 }
 
 install_rust() {
