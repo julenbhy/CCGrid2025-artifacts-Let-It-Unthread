@@ -19,6 +19,9 @@ install_rust() {
     fi
     echo "Installing Rust and build dependencies..."
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+    # Load cargo env without restarting terminal
+    source "$HOME/.cargo/env"
 }
 
 install_wasi_sdk() {
