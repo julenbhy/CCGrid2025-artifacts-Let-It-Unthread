@@ -9,7 +9,7 @@ echo "Setting up for architecture: $ARCH"
 
 install_others() {
     sudo apt update
-    sudo apt install -y git curl build-essential cmake m4 time multitime
+    sudo apt install -y git curl build-essential cmake m4 time multitime ccache
     sudo apt install -y python3-pip
     pip3 install numpy --break-system-packages
 }
@@ -123,23 +123,31 @@ install_iwasm() {
             # Build from source for aarch64
             TMP_DIR=$(mktemp -d)
             git clone --branch "WAMR-${IWASM_VERSION}" --depth 1 https://github.com/bytecodealliance/wasm-micro-runtime.git "$TMP_DIR"
+            pushd "$TMP_DIR" >/dev/null
 
-            pushd "$TMP_DIR/product-mini/platforms/linux" >/dev/null
+            # Build LLVM (JIT dependency)
+            echo ">>> Building LLVM (required for JIT)..."
+            pushd build-scripts >/dev/null
+            python3 build_llvm.py
+            popd >/dev/null
+
+            pushd product-mini/platforms/linux >/dev/null
             mkdir build && cd build
             cmake .. \
                 -DWAMR_BUILD_LIB_PTHREAD_SEMAPHORE=1 \
                 -DWAMR_BUILD_LIB_WASI_THREADS=1 \
                 -DWAMR_BUILD_REF_TYPES=1 \
+                -DWAMR_BUILD_JIT=1 \
                 -DCMAKE_C_FLAGS="-DAPP_THREAD_STACK_SIZE_DEFAULT=131072 -DAPP_THREAD_STACK_SIZE_MIN=131072"
             make -j"$(nproc)"
 
             sudo cp iwasm "$IWASM"
             popd >/dev/null
+            popd >/dev/null
+            rm -rf "$TMP_DIR"
             ;;
         *) echo "Unsupported architecture for iwasm: $ARCH"; exit 1 ;;
     esac
-
-            rm -rf "$TMP_DIR"
 
     $IWASM --version || true
     echo "iwasm installed at $IWASM"
