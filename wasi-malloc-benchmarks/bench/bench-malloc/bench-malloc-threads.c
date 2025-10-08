@@ -208,14 +208,21 @@ int main (int argc, char **argv)
   
   if (argc > 2)
     size = atol (argv[2]);
-    
 
+  thread_args arg;
+  arg.thread_id = 0;
+
+    
   puts (TIMING_TYPE);
-  
-  
-  bench (size);
-  bench (2*size);
-  bench (4*size);
+
+  arg.size = size;
+  bench(&arg);
+
+  arg.size = size*2;
+  bench(&arg);
+
+  arg.size = size*4;
+  bench(&arg);
 
   return 0;
 }
