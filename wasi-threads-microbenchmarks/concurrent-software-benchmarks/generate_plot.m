@@ -72,7 +72,10 @@ end
 % Add a legend
 legend(runtimes(2:end), 'Location', 'northwest');
 
-
-%saveas(gcf, strcat('result/', benchmarks{i}, '.png'));
-%saveas(gcf, strcat('result/', benchmarks{i}, '.fig'));
+% Save plots
+if ~exist('plots', 'dir')
+    mkdir('plots');
+end
+saveas(gcf, strcat('plots/', 'benchmark', '.png'));
+saveas(gcf, strcat('plots/', 'benchmarks', '.fig'));
 

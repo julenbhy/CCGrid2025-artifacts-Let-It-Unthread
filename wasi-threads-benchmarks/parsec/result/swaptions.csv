@@ -1,0 +1,11 @@
+Threads,Runtime,Time,StdDev
+32,native(glibc),0.334,0.002
+32,native(musl),1.035,0.105
+32,wasmtime,1.746,0.049
+32,iwasm,3.62,0.155
+32,wasmer,3.493,0.112
+64,native(glibc),0.17,0.001
+64,native(musl),1.397,0.191
+64,wasmtime,2.819,0.033
+64,iwasm,6.481,0.124
+64,wasmer,4.631,0.262

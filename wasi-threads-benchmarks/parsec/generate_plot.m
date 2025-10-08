@@ -29,6 +29,10 @@ end
 std_values = std_values ./ mean_values(1, :);
 mean_values = mean_values ./ mean_values(1, :);
 
+% Remove glibc from the plot
+runtimes = runtimes(2:end);
+mean_values = mean_values(2:end, :);
+std_values = std_values(2:end, :);
 
 figure('Position', [100, 100, 1200, 600]);
 
@@ -61,7 +65,18 @@ lgd.Title.String = 'Benchmark';
 for i = 1:numbars
     % Convert to percentages
     percentages = mean_values(:, i) * 100;
-    text((1:numgroups) - groupwidth/2 + (2*i-1) * groupwidth / (2*numbars), mean_values(:,i)+10, num2str(percentages, '%0.1f%%'), ...
+    offset = max(mean_values(:)) * 0.05;
+    text((1:numgroups) - groupwidth/2 + (2*i-1) * groupwidth / (2*numbars), ...
+        mean_values(:,i)+offset, ...
+        num2str(percentages, '%0.1f%%'), ...
         'VerticalAlignment', 'middle', 'HorizontalAlignment', 'left', 'FontSize', 8, 'Rotation', 90);
 end
+
+
+% Save plots
+if ~exist('plots', 'dir')
+    mkdir('plots');
+end
+saveas(gcf, fullfile('plots', 'instantiation_time.fig'));
+saveas(gcf, fullfile('plots', 'instantiation_time.png'));
 

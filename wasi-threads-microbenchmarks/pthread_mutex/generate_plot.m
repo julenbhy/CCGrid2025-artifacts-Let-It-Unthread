@@ -11,11 +11,14 @@ for i = 1:length(benchmarks)
     plot(benchmarks{i});
     title(benchmarks{i})
 
-    % Save the plot as a png and fig files
-    %saveas(gcf, strcat('result/', benchmarks{i}, '.png'));
-    %saveas(gcf, strcat('result/', benchmarks{i}, '.fig'));
 end
 
+% Save the plot as a png and fig files        % Save plots
+if ~exist('plots', 'dir')
+    mkdir('plots');
+end
+saveas(gcf, strcat('plots/', 'pthread_mutex', '.png'));
+saveas(gcf, strcat('plots/', 'pthread_mutex', '.fig'));
 
 
 function plot(bench)
@@ -84,5 +87,4 @@ function plot(bench)
             'VerticalAlignment', 'middle', 'HorizontalAlignment', 'left', 'FontSize', 8, 'Rotation', 90);
     end
 
-    
 end

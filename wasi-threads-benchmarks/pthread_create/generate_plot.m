@@ -5,6 +5,14 @@ plot('create');
 title('Thread creation time comparison');
 ylabel('Time (s)')
 
+% Save plots
+if ~exist('plots', 'dir')
+    mkdir('plots');
+end
+
+saveas(gcf, fullfile('plots', strcat('pthread_create', '.fig')));
+saveas(gcf, fullfile('plots', strcat('pthread_create', '.png')));
+
 
 function plot(bench)
     filename = strcat('result/', bench, '.csv')
@@ -54,8 +62,10 @@ function plot(bench)
     % Add values on top of the bars (center of each of the bars) rotated 90 degrees
     for i = 1:numbars
         % Convert to percentages
-        percentages = mean_values(:, i);
-        text((1:numgroups) - groupwidth/2 + (2*i-1) * groupwidth / (2*numbars), mean_values(:,i)+mean_values(:,i)*0.1, num2str(percentages, '%0.4f%'), ...
+        offset = max(mean_values(:)) * 0.05;
+        text((1:numgroups) - groupwidth/2 + (2*i-1) * groupwidth / (2*numbars), ...
+            mean_values(:,i)+offset, ...
+            compose('%.4f s', mean_values(:, i)), ...
             'VerticalAlignment', 'middle', 'HorizontalAlignment', 'left', 'FontSize', 8, 'Rotation', 90);
     end
 end

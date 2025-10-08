@@ -14,7 +14,8 @@ os.makedirs('plots', exist_ok=True)
 
 # Iterate over thread counts
 for n_threads in num_threads:
-    filename = 'result/mimalloc.csv'
+    filename = f'result/{n_threads}.csv'
+    # filename = 'result/mimalloc.csv'
     all_benchmarks = pd.read_csv(filename)
 
     # ---- Non-threaded benchmarks ----

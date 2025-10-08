@@ -17,6 +17,13 @@ ylabel('Time (ns)');
 title('Embedding Overheads');
 xtickangle(45); % Rotate x-axis labels for better readability
 
+
+if ~exist('plots', 'dir')
+    mkdir('plots');
+end
+
+saveas(gcf, fullfile('plots', strcat('trampoline-overhead', '.fig')));
+saveas(gcf, fullfile('plots', strcat('trampoline-overhead', '.png')));
 % Save the plot as fig
 saveas(gcf, 'boxplot.fig');
 
