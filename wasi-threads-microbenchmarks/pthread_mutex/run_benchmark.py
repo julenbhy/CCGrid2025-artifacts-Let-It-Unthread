@@ -11,7 +11,7 @@ num_runs = 30
 verbose = False
 
 # Time limit for each benchmark
-time_limit = 60
+time_limit = 300
 
 
 # Array of benchmarks
