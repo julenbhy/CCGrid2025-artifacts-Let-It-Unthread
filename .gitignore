@@ -17,10 +17,10 @@ rust-toolchain
 
 # Ignore ersult files
 **/*.txt
-
+# **/*.csv
 **/*.csv.line
 **/*.json
-**/*.png
+# **/*.png
 
 # Ignore logs
 **/*.log
