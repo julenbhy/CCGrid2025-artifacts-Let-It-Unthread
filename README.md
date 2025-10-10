@@ -45,7 +45,7 @@ If any error occurs during the automated installation, you can install the depen
 
 In each section, the setup allows for easy compilation provided that all required software has been installed in the paths indicated on env.sh. Upon compilation, multiple executables will be generated for each program: the native executable linked to glibc (without extension), the native executable linked to musl (with the .musl extension), and the WebAssembly executable (with the .wasm extension).
 
-We provide a script that automates the execution of all experiments across the different sections. This script compiles and runs everything and stores the generated logs under the logs/ directory for easier inspection.
+We provide a script that automates the execution of all experiments across the different sections. This script compiles and runs everything and stores the generated logs under the logs/ directory for easier inspection. Remember to set the paths using source ./scipts/env.sh
 ```bash
 ./scripts/run_all.sh
 ```
@@ -55,3 +55,29 @@ Additionally, within each section, a ```run_benchmark``` script is provided. The
 During execution, multiple .csv files will be generated containing the experiment results.
 
 
+# Figures List
+
+The following table correlates the figures presented in the paper *“Let It Unthread: The Good, The Bad and The Ugly within WebAssembly Portable Multithreading”* with their corresponding directories in the artifact repository:
+
+- **Fig. 3** – Performance of the wasi-libc allocator for non-threaded benchmarks  
+  **Fig. 4** – Performance of the wasi-libc allocator for threaded benchmarks  
+  → [wasi-malloc-benchmarks](https://github.com/julenbhy/CCGrid2025-artifacts-Let-It-Unthread/tree/ARM64-port/wasi-malloc-benchmarks)
+
+- **Fig. 5** – Latency slowdown of the wasi-libc mutex relative to glibc` 
+  → [wasi-threads-microbenchmarks/pthread_mutex](https://github.com/julenbhy/CCGrid2025-artifacts-Let-It-Unthread/tree/ARM64-port/wasi-threads-microbenchmarks/pthread_mutex)
+
+- **Fig. 6** – Average execution time slowdown relative to glibc in the SCTBench benchmark  
+  → [wasi-threads-microbenchmarks/concurrent-software-benchmarks](https://github.com/julenbhy/CCGrid2025-artifacts-Let-It-Unthread/tree/ARM64-port/wasi-threads-microbenchmarks/concurrent-software-benchmarks)
+
+- **Fig. 7(a)** – Efficiency of the WebAssembly runtimes: Maximum RSS  
+  → [wasi-threads-benchmarks/pthread_create_RSS](https://github.com/julenbhy/CCGrid2025-artifacts-Let-It-Unthread/tree/ARM64-port/wasi-threads-benchmarks/pthread_create_RSS)
+
+- **Fig. 7(b)** – Efficiency of the WebAssembly runtimes: Cumulative time for spawning 10k threads  
+  → [wasi-threads-benchmarks/pthread_create](https://github.com/julenbhy/CCGrid2025-artifacts-Let-It-Unthread/tree/ARM64-port/wasi-threads-benchmarks/pthread_create)
+
+- **Fig. 8** – Time to create a child instance in Wasmtime as a function of the number of imports  
+  → [instance_pre-overhead](https://github.com/julenbhy/CCGrid2025-artifacts-Let-It-Unthread/tree/ARM64-port/instance_pre-overhead)
+
+- **Fig. 9** – Average execution time slowdown relative to glibc in three PARSEC applications  
+  **Fig. 10** – Comparison of the wasi-libc allocator vs. mimalloc for multithreaded benchmarks on Wasmtime (64 threads)  
+  → [wasi-threads-benchmarks/parsec](https://github.com/julenbhy/CCGrid2025-artifacts-Let-It-Unthread/tree/ARM64-port/wasi-threads-benchmarks/parsec)
