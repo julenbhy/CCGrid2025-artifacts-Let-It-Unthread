@@ -71,3 +71,12 @@ Furthermore, each section includes a ```generate_plot.m``` script for generating
 Due to the current instability of wasm and its runtimes, some executions may become stuck. This has been taken into consideration, and all execution scripts are equipped with timeouts to address this issue. The maximum timeout duration can be configured in each of the scripts.
 
 
+## Acknowledgements
+
+<img width="80px" src="https://cloudskin.eu/assets/img/europe.jpg" alt="European flag" />
+
+CLOUDSKIN has received funding from the European Union’s Horizon research and innovation programme under grant agreement No 101092646.
+
+https://cloudskin.eu
+
+
