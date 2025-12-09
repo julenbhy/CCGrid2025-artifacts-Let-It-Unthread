@@ -81,3 +81,13 @@ The following table correlates the figures presented in the paper *“Let It Unt
 - **Fig. 9** – Average execution time slowdown relative to glibc in three PARSEC applications  
   **Fig. 10** – Comparison of the wasi-libc allocator vs. mimalloc for multithreaded benchmarks on Wasmtime (64 threads)  
   → [wasi-threads-benchmarks/parsec](https://github.com/julenbhy/CCGrid2025-artifacts-Let-It-Unthread/tree/ARM64-port/wasi-threads-benchmarks/parsec)
+
+
+
+## Acknowledgements
+
+<img width="80px" src="https://cloudskin.eu/assets/img/europe.jpg" alt="European flag" />
+
+CLOUDSKIN has received funding from the European Union’s Horizon research and innovation programme under grant agreement No 101092646.
+
+https://cloudskin.eu
